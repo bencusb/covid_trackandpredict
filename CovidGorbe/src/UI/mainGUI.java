@@ -140,6 +140,9 @@ public class mainGUI extends javax.swing.JFrame {
         linearCheck = new javax.swing.JCheckBox();
         runningAvgCheck = new javax.swing.JCheckBox();
         runningAverageDays = new javax.swing.JSpinner();
+        linearCheckDead = new javax.swing.JCheckBox();
+        exponencialCheckDead = new javax.swing.JCheckBox();
+        runningAvgCheckDead = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -261,7 +264,7 @@ public class mainGUI extends javax.swing.JFrame {
 
         tillDate.setDateFormatString("y-MM-d");
 
-        exponencialCheck.setText("Exponenciális");
+        exponencialCheck.setText("Exponenciális(F)");
         exponencialCheck.setContentAreaFilled(false);
         exponencialCheck.setName("exponential"); // NOI18N
         exponencialCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -270,7 +273,7 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
-        linearCheck.setText("Lineáris");
+        linearCheck.setText("Lineáris(F)");
         linearCheck.setContentAreaFilled(false);
         linearCheck.setName("linear"); // NOI18N
         linearCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -279,7 +282,7 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
-        runningAvgCheck.setText("Futó átlag");
+        runningAvgCheck.setText("Futó átlag(F)");
         runningAvgCheck.setContentAreaFilled(false);
         runningAvgCheck.setName("runningavg"); // NOI18N
         runningAvgCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -296,6 +299,27 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
+        linearCheckDead.setText("Lineáris(H)");
+        linearCheckDead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                linearCheckDeadActionPerformed(evt);
+            }
+        });
+
+        exponencialCheckDead.setText("Exponenciális(H)");
+        exponencialCheckDead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exponencialCheckDeadActionPerformed(evt);
+            }
+        });
+
+        runningAvgCheckDead.setText("Futó átlag(H)");
+        runningAvgCheckDead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runningAvgCheckDeadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -309,29 +333,20 @@ public class mainGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(exponencialCheck)
-                                .addComponent(runningAvgCheck)
-                                .addComponent(linearCheck)
-                                .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(117, 117, 117))
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(countrySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(63, 63, 63)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(numberOfDeceased)
-                                .addComponent(numberOfInfected)))))
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(countrySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(numberOfDeceased)
+                            .addComponent(numberOfInfected))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -341,6 +356,29 @@ public class mainGUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(linearCheck)
+                                .addGap(74, 74, 74)
+                                .addComponent(linearCheckDead))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(exponencialCheck)
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(runningAvgCheckDead)
+                                    .addComponent(exponencialCheckDead))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(runningAvgCheck)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(117, 117, 117))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,14 +396,20 @@ public class mainGUI extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tillDate, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(linearCheck)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(linearCheck)
+                    .addComponent(linearCheckDead))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exponencialCheck)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exponencialCheck)
+                    .addComponent(exponencialCheckDead))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(runningAvgCheck)
-                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(runningAvgCheck)
+                    .addComponent(runningAvgCheckDead))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberOfInfected)
@@ -373,7 +417,7 @@ public class mainGUI extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberOfDeceased)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -425,7 +469,7 @@ public class mainGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1392, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1404, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -474,12 +518,15 @@ public class mainGUI extends javax.swing.JFrame {
      * @param evt An button click
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try{
         config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
         countrySearch();
         writeOutData();
         regionSearch();
         dailyStatsInf=null;
         createInfectedGraph();
+        //createDeceasedGraph();
+        }catch(Exception e){}
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
     * Writes out data 
@@ -529,6 +576,26 @@ public class mainGUI extends javax.swing.JFrame {
             createInfectedGraph();   
         });
     }//GEN-LAST:event_jPanel6ComponentResized
+
+    private void runningAvgCheckDeadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runningAvgCheckDeadActionPerformed
+        // TODO add your handling code here:
+        createDeceasedGraph();
+        config.Save(runningAvgCheck.getName(), runningAvgCheckDead.isSelected()+"");
+        if(!runningAvgCheckDead.isSelected()) runningAverageDays.setVisible(false);
+        else runningAverageDays.setVisible(true);
+    }//GEN-LAST:event_runningAvgCheckDeadActionPerformed
+
+    private void linearCheckDeadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linearCheckDeadActionPerformed
+        // TODO add your handling code here:
+        createDeceasedGraph();
+        config.Save(linearCheckDead.getName(), linearCheckDead.isSelected()+"");  
+    }//GEN-LAST:event_linearCheckDeadActionPerformed
+
+    private void exponencialCheckDeadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exponencialCheckDeadActionPerformed
+        // TODO add your handling code here:
+        createDeceasedGraph();
+        config.Save(exponencialCheckDead.getName(), exponencialCheckDead.isSelected()+"");
+    }//GEN-LAST:event_exponencialCheckDeadActionPerformed
     
     /**
      * Firstly it calls the API with the given parameters, then sums and displays the infected and deceased people
@@ -558,6 +625,37 @@ public class mainGUI extends javax.swing.JFrame {
                 graph.leastSquares(dailyStatsInf, noOfDays)[0], graph.leastSquares(dailyStatsInf,
                         noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
                         linearCheck.isSelected(), exponencialCheck.isSelected(), runningAvgCheck.isSelected(), (int)runningAverageDays.getValue());
+        }
+        catch (java.lang.ArrayIndexOutOfBoundsException e){
+            jTextArea1.setText("A mai adatokat nem lehet még lekérni. Próbáld újra később!");
+        } 
+        catch (Exception e){
+            jTextArea1.setText("Hiba történt! Próbáld meg másokkal!");
+        } 
+    }
+    
+    public int dailyStatsDe[];
+    private void createDeceasedGraph(){
+        
+        LocalDate dateBefore = LocalDate.parse(date1);
+	LocalDate dateAfter = LocalDate.parse(date2);
+        long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+        int noOfDays = (int)noOfDaysBetween+1;
+        
+        System.out.println("the number of days is "+noOfDays);
+        
+        dailyStatsDe = new int[dailyStatsDeaths.size()];
+        
+        for (int i = 0; i < dailyStatsDeaths.size(); i++) {
+            dailyStatsDe[i] = dailyStatsDeaths.get(i);
+        }
+        Graph graph = new Graph();
+        try{
+            graph.leastSquares(dailyStatsDe, noOfDays);//4.
+            graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsDe,
+                graph.leastSquares(dailyStatsDe, noOfDays)[0], graph.leastSquares(dailyStatsDe,
+                        noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
+                        linearCheckDead.isSelected(), exponencialCheckDead.isSelected(), runningAvgCheckDead.isSelected(), (int)runningAverageDays.getValue());
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
             jTextArea1.setText("A mai adatokat nem lehet még lekérni. Próbáld újra később!");
@@ -597,8 +695,14 @@ public class mainGUI extends javax.swing.JFrame {
             Date date_date = fromDate.getDate();
             Date date_date2 = tillDate.getDate();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            date1 = dateFormat.format(date_date);
-            date2 = dateFormat.format(date_date2);
+            if (date_date.after(date_date2)){
+                date1 = dateFormat.format(date_date2);
+                date2 = dateFormat.format(date_date);
+            } 
+            else{
+                date1 = dateFormat.format(date_date);
+                date2 = dateFormat.format(date_date2);
+            }
             //System.out.println(date1);
         }
         
@@ -777,6 +881,7 @@ public class mainGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> countrySelector;
     private javax.swing.JCheckBox exponencialCheck;
+    private javax.swing.JCheckBox exponencialCheckDead;
     private com.toedter.calendar.JDateChooser fromDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -794,11 +899,13 @@ public class mainGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JCheckBox linearCheck;
+    private javax.swing.JCheckBox linearCheckDead;
     private javax.swing.JLabel numberOfDeceased;
     private javax.swing.JLabel numberOfInfected;
     private javax.swing.JComboBox<String> regionSelect;
     private javax.swing.JSpinner runningAverageDays;
     private javax.swing.JCheckBox runningAvgCheck;
+    private javax.swing.JCheckBox runningAvgCheckDead;
     private com.toedter.calendar.JDateChooser tillDate;
     // End of variables declaration//GEN-END:variables
 }

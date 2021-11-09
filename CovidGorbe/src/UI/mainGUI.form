@@ -32,7 +32,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="1" attributes="0">
-          <Component id="jPanel1" pref="1392" max="32767" attributes="0"/>
+          <Component id="jPanel1" pref="1404" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
@@ -109,34 +109,22 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="exponencialCheck" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="runningAvgCheck" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="linearCheck" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="runningAverageDays" min="-2" pref="104" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jToggleButton1" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="countrySelector" min="-2" pref="274" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="numberOfDeceased" min="-2" max="-2" attributes="0"/>
-                                  <Component id="numberOfInfected" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                      <Component id="jToggleButton1" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="countrySelector" min="-2" pref="274" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" pref="42" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="numberOfDeceased" min="-2" max="-2" attributes="0"/>
+                              <Component id="numberOfInfected" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -151,6 +139,38 @@
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   <Component id="jLabel5" min="-2" pref="229" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="linearCheck" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                                  <Component id="linearCheckDead" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="exponencialCheck" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="runningAvgCheckDead" min="-2" max="-2" attributes="0"/>
+                                      <Component id="exponencialCheckDead" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="runningAvgCheck" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="runningAverageDays" min="-2" pref="104" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -172,14 +192,23 @@
                       <Component id="tillDate" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="linearCheck" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="linearCheck" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="linearCheckDead" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="exponencialCheck" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="exponencialCheck" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="exponencialCheckDead" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="runningAvgCheck" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="runningAvgCheck" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="runningAvgCheckDead" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="runningAverageDays" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="numberOfInfected" min="-2" max="-2" attributes="0"/>
@@ -187,7 +216,7 @@
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="numberOfDeceased" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="213" max="32767" attributes="0"/>
                   <Component id="jToggleButton1" min="-2" pref="64" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -395,7 +424,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="exponencialCheck">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Exponenci&#xe1;lis"/>
+            <Property name="text" type="java.lang.String" value="Exponenci&#xe1;lis(F)"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="exponential" noResource="true"/>
           </Properties>
@@ -405,7 +434,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="linearCheck">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Line&#xe1;ris"/>
+            <Property name="text" type="java.lang.String" value="Line&#xe1;ris(F)"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="linear" noResource="true"/>
           </Properties>
@@ -415,7 +444,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="runningAvgCheck">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Fut&#xf3; &#xe1;tlag"/>
+            <Property name="text" type="java.lang.String" value="Fut&#xf3; &#xe1;tlag(F)"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="runningavg" noResource="true"/>
           </Properties>
@@ -432,6 +461,30 @@
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="valueChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="linearCheckDead">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Line&#xe1;ris(H)"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="linearCheckDeadActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="exponencialCheckDead">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Exponenci&#xe1;lis(H)"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exponencialCheckDeadActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="runningAvgCheckDead">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fut&#xf3; &#xe1;tlag(H)"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runningAvgCheckDeadActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
