@@ -6,12 +6,31 @@ package UI;
 
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 ///Ez új!
-
+import graph.Graph;
+import java.awt.Graphics;
+import API.apiCalling;
+import Config.Config;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+
 
 /**
  *  Generates the MainGUI, and calls the api to Hungary with the current date
@@ -19,25 +38,78 @@ import java.util.List;
  * @author Yama
  */
 public class mainGUI extends javax.swing.JFrame {
+
+    /**
+     *
+     */
+    public static apiCalling test;
+
+    /**
+     *
+     */
+    public static apiCalling stats;
+    Config config = new Config();
     private List<String> countries = new ArrayList<String>();
     private List<Integer> dailyStatsInfected = new ArrayList<>();
     private List<Integer> dailyStatsDeaths = new ArrayList<>();
     private String selectedCountry;
     private String date1;
     private String date2;
+    private Graph covidGraph;
+    Graphics g;
     /**
      * Creates new form mainGUI
      */
-    public mainGUI() {
+    public mainGUI() {       
         initComponents();
-        AutoCompleteDecorator.decorate(countrySelector);
+        AutoCompleteDecorator.decorate(countrySelector);    
+        
+        Boolean b = false;
+        try {
+            countrySelector.setSelectedItem(config.GetProp(countrySelector.getName().toString()));
+            b = Boolean.parseBoolean(config.GetProp(jToggleButton1.getName().toString()));
+            runningAvgCheck.setSelected(Boolean.parseBoolean(config.GetProp(runningAvgCheck.getName().toString())));
+            linearCheck.setSelected(Boolean.parseBoolean(config.GetProp(linearCheck.getName().toString())));
+            exponencialCheck.setSelected(Boolean.parseBoolean(config.GetProp(exponencialCheck.getName().toString())));
+        } catch (Exception e) {
+        }
+        
+        if(b){
+            setDark();
+            jToggleButton1.setSelected(true);
+        }
+        else {
+            setLight();
+            jToggleButton1.setSelected(false);
+        }
+        
         jPanel4.setVisible(false);
+        covidGraph = new Graph();
+        try{
+            test = new apiCalling("fetchCountryList");
+        }catch (IOException | InterruptedException | ParseException ex) {
+            Logger.getLogger(mainGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        countries = test.getCountries();
+        //countrySelector.setModel(new DefaultComboBoxModel<String>(test.getCountries().toArray(new String[0])));
+        for(int i=0; i < countries.size(); i++){
+            countrySelector.addItem(countries.get(i));
+        }
         fromDate.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         tillDate.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         //System.out.println(java.sql.Date.valueOf(java.time.LocalDate.now()));
-        countrySelector.setSelectedItem("Hungary");
+        
+        
+        
+        try{
+            
+        }catch (Exception e){
+            
+        }
+        
+        countrySearch();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,26 +120,28 @@ public class mainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        logoLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         countrySelector = new javax.swing.JComboBox<>();
-        numberOfInfectedLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         numberOfDeceased = new javax.swing.JLabel();
-        numberOfDeceasedLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         numberOfInfected = new javax.swing.JLabel();
-        darkModeBtn = new javax.swing.JToggleButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         fromDate = new com.toedter.calendar.JDateChooser();
-        countrySearchBtn = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        regionSearchBtn = new javax.swing.JButton();
-        countrySelector1 = new javax.swing.JComboBox<>();
+        regionSelect = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
         tillDate = new com.toedter.calendar.JDateChooser();
+        exponencialCheck = new javax.swing.JCheckBox();
+        linearCheck = new javax.swing.JCheckBox();
+        runningAvgCheck = new javax.swing.JCheckBox();
+        runningAverageDays = new javax.swing.JSpinner();
         jPanel5 = new javax.swing.JPanel();
-        graphPanel = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
@@ -80,10 +154,10 @@ public class mainGUI extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(914, 87));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        logoLabel.setFont(new java.awt.Font("Microsoft JhengHei", 1, 36)); // NOI18N
-        logoLabel.setForeground(new java.awt.Color(193, 240, 219));
-        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoB.png"))); // NOI18N
-        jPanel1.add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(193, 240, 219));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoB.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(192, 226, 238));
 
@@ -91,29 +165,31 @@ public class mainGUI extends javax.swing.JFrame {
         countrySelector.setEditable(true);
         countrySelector.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         countrySelector.setForeground(new java.awt.Color(102, 102, 102));
+        countrySelector.setName("countrySelector"); // NOI18N
         countrySelector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 countrySelectorActionPerformed(evt);
             }
         });
 
-        numberOfInfectedLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        numberOfInfectedLabel.setText("Fertőzöttek száma(összes): ");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("Fertőzöttek száma(összes): ");
 
         numberOfDeceased.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         numberOfDeceased.setForeground(new java.awt.Color(255, 0, 0));
         numberOfDeceased.setText("123123123");
 
-        numberOfDeceasedLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        numberOfDeceasedLabel.setText("Halottak száma(összes):");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("Halottak száma(összes):");
 
         numberOfInfected.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         numberOfInfected.setText("123123123");
 
-        darkModeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/DarkMode.png"))); // NOI18N
-        darkModeBtn.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/DarkMode.png"))); // NOI18N
+        jToggleButton1.setName("DarkMode"); // NOI18N
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                darkModeBtnActionPerformed(evt);
+                jToggleButton1ActionPerformed(evt);
             }
         });
 
@@ -123,16 +199,15 @@ public class mainGUI extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(192, 226, 238));
 
         fromDate.setDateFormatString("y-MM-d");
-        fromDate.setMinimumSize(new java.awt.Dimension(60, 30));
-        fromDate.setPreferredSize(new java.awt.Dimension(95, 30));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(fromDate, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(fromDate, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,35 +216,30 @@ public class mainGUI extends javax.swing.JFrame {
                 .addComponent(fromDate, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        countrySearchBtn.setBackground(new java.awt.Color(102, 102, 102));
-        countrySearchBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        countrySearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
-        countrySearchBtn.setToolTipText("");
-        countrySearchBtn.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setBackground(new java.awt.Color(102, 102, 102));
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                countrySearchBtnActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
         jPanel4.setBackground(new java.awt.Color(192, 226, 238));
 
-        regionSearchBtn.setBackground(new java.awt.Color(102, 102, 102));
-        regionSearchBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        regionSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
-        regionSearchBtn.setToolTipText("");
-        regionSearchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regionSearchBtnActionPerformed(evt);
-            }
-        });
+        regionSelect.setBackground(new java.awt.Color(51, 51, 51));
+        regionSelect.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        regionSelect.setForeground(new java.awt.Color(0, 0, 0));
+        regionSelect.setName("regionSelect"); // NOI18N
 
-        countrySelector1.setBackground(new java.awt.Color(51, 51, 51));
-        countrySelector1.setEditable(true);
-        countrySelector1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        countrySelector1.setForeground(new java.awt.Color(102, 102, 102));
-        countrySelector1.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
+        jButton2.setToolTipText("");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                countrySelector1ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -178,20 +248,53 @@ public class mainGUI extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(countrySelector1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(regionSelect, 0, 274, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(regionSearchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(regionSearchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-            .addComponent(countrySelector1, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+            .addComponent(regionSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         tillDate.setDateFormatString("y-MM-d");
-        tillDate.setMinimumSize(new java.awt.Dimension(60, 30));
-        tillDate.setPreferredSize(new java.awt.Dimension(95, 30));
+
+        exponencialCheck.setText("Exponenciális");
+        exponencialCheck.setContentAreaFilled(false);
+        exponencialCheck.setName("exponential"); // NOI18N
+        exponencialCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exponencialCheckActionPerformed(evt);
+            }
+        });
+
+        linearCheck.setText("Lineáris");
+        linearCheck.setContentAreaFilled(false);
+        linearCheck.setName("linear"); // NOI18N
+        linearCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                linearCheckActionPerformed(evt);
+            }
+        });
+
+        runningAvgCheck.setText("Futó átlag");
+        runningAvgCheck.setContentAreaFilled(false);
+        runningAvgCheck.setName("runningavg"); // NOI18N
+        runningAvgCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runningAvgCheckActionPerformed(evt);
+            }
+        });
+
+        runningAverageDays.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        runningAverageDays.setName("runningavgval"); // NOI18N
+        runningAverageDays.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                valueChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,36 +302,45 @@ public class mainGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tillDate, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(darkModeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(286, 286, 286)
-                                        .addComponent(countrySearchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(countrySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(numberOfInfectedLabel)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(13, 13, 13)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(numberOfDeceasedLabel)
-                                            .addComponent(numberOfInfected)
-                                            .addComponent(numberOfDeceased))))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, 0)
+                        .addComponent(tillDate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(exponencialCheck)
+                                .addComponent(runningAvgCheck)
+                                .addComponent(linearCheck)
+                                .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(117, 117, 117))
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(countrySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel1))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(63, 63, 63)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(numberOfDeceased)
+                                .addComponent(numberOfInfected)))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(41, 41, 41))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,64 +349,52 @@ public class mainGUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(countrySearchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(countrySelector, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tillDate, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
-                .addComponent(numberOfInfectedLabel)
                 .addGap(18, 18, 18)
+                .addComponent(linearCheck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exponencialCheck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(runningAvgCheck)
+                .addGap(5, 5, 5)
+                .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberOfInfected)
-                .addGap(18, 18, 18)
-                .addComponent(numberOfDeceasedLabel)
-                .addGap(18, 18, 18)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberOfDeceased)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
-                .addComponent(darkModeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel5.setBackground(new java.awt.Color(192, 226, 238));
 
-        graphPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        jCheckBox2.setText("Show Infected");
-        jCheckBox2.setToolTipText("");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jPanel6ComponentResized(evt);
             }
         });
 
-        jCheckBox1.setText("Show Deceased");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout graphPanelLayout = new javax.swing.GroupLayout(graphPanel);
-        graphPanel.setLayout(graphPanelLayout);
-        graphPanelLayout.setHorizontalGroup(
-            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(graphPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1058, Short.MAX_VALUE)
         );
-        graphPanelLayout.setVerticalGroup(
-            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(graphPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 555, Short.MAX_VALUE)
         );
 
         jTextArea1.setEditable(false);
@@ -302,7 +402,7 @@ public class mainGUI extends javax.swing.JFrame {
         jTextArea1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit expedita recusandae porro delectus at id accusantium adipisci hic saepe? Numquam totam ex aut dolorum saepe sequi odio distinctio recusandae eveniet.");
+        jTextArea1.setText("Itt jelennek majd meg adatok");
         jTextArea1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -311,12 +411,12 @@ public class mainGUI extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
-            .addComponent(graphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(graphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -325,7 +425,7 @@ public class mainGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1368, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1392, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -351,9 +451,12 @@ public class mainGUI extends javax.swing.JFrame {
      * @author Patrik
      * @param evt An event
      */
-    private void darkModeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkModeBtnActionPerformed
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         setMode();
-    }//GEN-LAST:event_darkModeBtnActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            createInfectedGraph();   
+        });
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
 /**
      * Hides and reveals the region panel and fills it up if the country has regions accordingly
@@ -362,36 +465,178 @@ public class mainGUI extends javax.swing.JFrame {
      * @param evt combobox selected item changed
      */
     private void countrySelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrySelectorActionPerformed
-
+        
     }//GEN-LAST:event_countrySelectorActionPerformed
 
-    private void countrySearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrySearchBtnActionPerformed
+    /**
+     * Calls the API with the given parameters
+     * 
+     * @param evt An button click
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
+        countrySearch();
+        writeOutData();
+        regionSearch();
+        dailyStatsInf=null;
+        createInfectedGraph();
+    }//GEN-LAST:event_jButton1ActionPerformed
+    /**
+    * Writes out data 
+    */
+    private void writeOutData(){
+        jTextArea1.setText("Napi lebontásban:\r\n");             
+        LocalDate curdate = LocalDate.parse(date1);
+        for (int i = 0; i < dailyStatsInfected.size(); i++){
+            String curday = curdate.toString();
+            jTextArea1.setText(jTextArea1.getText() + "\t"+ curday + ": Fertőzöttek: " + dailyStatsInfected.get(i) + ", Halottak: " + dailyStatsDeaths.get(i) + "\r\n");
+            curdate = curdate.plusDays(1);
+        }
+    }
+    
+    /**
+     * Calls the API with the given parameters
+     * 
+     * @param evt An button click
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-    }//GEN-LAST:event_countrySearchBtnActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void regionSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regionSearchBtnActionPerformed
+    private void runningAvgCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runningAvgCheckActionPerformed
+        createInfectedGraph();
+        config.Save(runningAvgCheck.getName(), runningAvgCheck.isSelected()+"");
+        if(!runningAvgCheck.isSelected()) runningAverageDays.setVisible(false);
+        else runningAverageDays.setVisible(true);
+    }//GEN-LAST:event_runningAvgCheckActionPerformed
+
+    private void exponencialCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exponencialCheckActionPerformed
+        createInfectedGraph();
+        config.Save(exponencialCheck.getName(), exponencialCheck.isSelected()+"");
+    }//GEN-LAST:event_exponencialCheckActionPerformed
+
+    private void linearCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linearCheckActionPerformed
+        createInfectedGraph();
+        config.Save(linearCheck.getName(), linearCheck.isSelected()+"");
+    }//GEN-LAST:event_linearCheckActionPerformed
+
+    private void valueChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_valueChanged
+        createInfectedGraph();
+    }//GEN-LAST:event_valueChanged
+
+    private void jPanel6ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentResized
+        SwingUtilities.invokeLater(() -> {
+            createInfectedGraph();   
+        });
+    }//GEN-LAST:event_jPanel6ComponentResized
+    
+    /**
+     * Firstly it calls the API with the given parameters, then sums and displays the infected and deceased people
+     * 
+     * @author Yama
+     * @author T. Dani
+     */
+    public int dailyStatsInf[];
+    private void createInfectedGraph(){
         
-    }//GEN-LAST:event_regionSearchBtnActionPerformed
-
-    private void countrySelector1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrySelector1ActionPerformed
-
-    }//GEN-LAST:event_countrySelector1ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
-  
+        LocalDate dateBefore = LocalDate.parse(date1);
+	LocalDate dateAfter = LocalDate.parse(date2);
+        long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+        int noOfDays = (int)noOfDaysBetween+1;
+        
+        System.out.println("the number of days is "+noOfDays);
+        
+        dailyStatsInf = new int[dailyStatsInfected.size()];
+        
+        for (int i = 0; i < dailyStatsInfected.size(); i++) {
+            dailyStatsInf[i] = dailyStatsInfected.get(i);
+        }
+        Graph graph = new Graph();
+        try{
+            graph.leastSquares(dailyStatsInf, noOfDays);//4.
+            graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsInf,
+                graph.leastSquares(dailyStatsInf, noOfDays)[0], graph.leastSquares(dailyStatsInf,
+                        noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
+                        linearCheck.isSelected(), exponencialCheck.isSelected(), runningAvgCheck.isSelected(), (int)runningAverageDays.getValue());
+        }
+        catch (java.lang.ArrayIndexOutOfBoundsException e){
+            jTextArea1.setText("A mai adatokat nem lehet még lekérni. Próbáld újra később!");
+        } 
+        catch (Exception e){
+            jTextArea1.setText("Hiba történt! Próbáld meg másokkal!");
+        } 
+    }
+    private void regionSearch(){
+        selectedCountry = countrySelector.getSelectedItem().toString();
+        regionSelect.removeAllItems();
+        try{
+            test.fetchRegionList(selectedCountry);
+        }catch(Exception e){
+            
+        }
+        //itt elszáll a program az ifnél (ha valaki tudja akkor nyugodtan kijavíthatja)
+        List<String> regions = new ArrayList<String>();
+        try {
+            regions = test.getRegions(selectedCountry);
+        } catch (Exception e) {
+            System.out.println("Region exception");
+        }
+        finally{
+            if (!(regions.isEmpty())){
+                jPanel4.setVisible(true);           
+                for(int i=0; i < regions.size(); i++){
+                    regionSelect.addItem(regions.get(i));
+                }
+            }
+            else jPanel4.setVisible(false);
+        }
+    }
+    List<String> nev=new ArrayList<>();
+    private void countrySearch(){
+        if(fromDate.getDate() != null && tillDate.getDate() != null){
+            Date date_date = fromDate.getDate();
+            Date date_date2 = tillDate.getDate();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date1 = dateFormat.format(date_date);
+            date2 = dateFormat.format(date_date2);
+            //System.out.println(date1);
+        }
+        
+        selectedCountry = countrySelector.getSelectedItem().toString();
+        try{
+            stats = new apiCalling(date1, date2, selectedCountry);
+        }catch (IOException | InterruptedException | ParseException | URISyntaxException ex) {
+            Logger.getLogger(mainGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Az olyan országokkal, mint pl. "United Kingdom" amiben space van, az hibát dob, és nem fut le
+        int infected = 0;
+        int deceased = 0;
+        dailyStatsInfected.clear();
+        for(int i: stats.getTodayNewConfirmed().values()){
+            dailyStatsInfected.add(i);
+            infected += i;
+        };
+        nev.clear();
+        nev=new ArrayList<>(stats.getTodayNewConfirmed().keySet());
+        dailyStatsDeaths.clear();
+        for(int i: stats.getTodayNewDeaths().values()){
+            dailyStatsDeaths.add(i);
+            deceased += i;
+        }
+        String infected_string = String.valueOf(infected);
+        numberOfInfected.setText(infected_string);
+        String deceased_string = String.valueOf(deceased);
+        numberOfDeceased.setText(deceased_string);
+    }
+    
     /**
      * Decides wether to turn on Night or Light mode
      * 
      * @author Patrik
      */
      private void setMode(){
-        boolean selected = darkModeBtn.isSelected();                
+        Boolean selected = jToggleButton1.isSelected();
+        config.Save(jToggleButton1.getName(), selected.toString());
         if (selected){
             setDark();
         }
@@ -409,21 +654,23 @@ public class mainGUI extends javax.swing.JFrame {
     private void setDark(){
         Color darkmodeColor = new Color(19, 3, 64);
 
-        darkModeBtn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LightMode.png")));
-        logoLabel.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LogoW.png")));
+        jToggleButton1.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LightMode.png")));
+        jLabel2.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LogoW.png")));
             
-        graphPanel.setBackground(Color.black);
+        jPanel6.setBackground(Color.black);
         jPanel2.setBackground(darkmodeColor);
         jPanel1.setBackground(darkmodeColor);
         jPanel5.setBackground(darkmodeColor);
         jPanel3.setBackground(darkmodeColor);
         jPanel4.setBackground(darkmodeColor);
             
-        numberOfInfectedLabel.setForeground(Color.white);
+        jLabel3.setForeground(Color.white);
         jLabel1.setForeground(Color.white);
-        numberOfDeceasedLabel.setForeground(Color.white);
+        jLabel5.setForeground(Color.white);
         numberOfInfected.setForeground(Color.white);
-            
+        exponencialCheck.setForeground(Color.white);
+        linearCheck.setForeground(Color.white);
+        runningAvgCheck.setForeground(Color.white);
             
         jTextArea1.setBackground(Color.black);
         jTextArea1.setForeground(Color.white);
@@ -441,20 +688,24 @@ public class mainGUI extends javax.swing.JFrame {
         int g = 226;
         int b = 238;
         Color color = new Color(r,g,b);       
-        darkModeBtn.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\DarkMode.png")));
-        logoLabel.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LogoB.png")));
+        jToggleButton1.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\DarkMode.png")));
+        jLabel2.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LogoB.png")));
             
-        graphPanel.setBackground(Color.white);
+        jPanel6.setBackground(Color.white);
         jPanel2.setBackground(color);
         jPanel1.setBackground(color);
         jPanel5.setBackground(color);
         jPanel3.setBackground(color);
         jPanel4.setBackground(color);    
         
-        numberOfInfectedLabel.setForeground(Color.black);
+        jLabel3.setForeground(Color.black);
         jLabel1.setForeground(color.black);
-        numberOfDeceasedLabel.setForeground(Color.black);
+        jLabel5.setForeground(Color.black);
         numberOfInfected.setForeground(Color.black);
+        
+        exponencialCheck.setForeground(Color.black);
+        linearCheck.setForeground(Color.black);
+        runningAvgCheck.setForeground(Color.black);
             
         jTextArea1.setBackground(Color.white);
         jTextArea1.setForeground(Color.black);
@@ -489,12 +740,14 @@ public class mainGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new mainGUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new mainGUI().setVisible(true);
         });
     }
+    
+    
+    
+    
 
     /**
      * Elements of the UI:
@@ -522,28 +775,30 @@ public class mainGUI extends javax.swing.JFrame {
     */
     private Boolean layout;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton countrySearchBtn;
     private javax.swing.JComboBox<String> countrySelector;
-    private javax.swing.JComboBox<String> countrySelector1;
-    private javax.swing.JToggleButton darkModeBtn;
+    private javax.swing.JCheckBox exponencialCheck;
     private com.toedter.calendar.JDateChooser fromDate;
-    private javax.swing.JPanel graphPanel;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel logoLabel;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JCheckBox linearCheck;
     private javax.swing.JLabel numberOfDeceased;
-    private javax.swing.JLabel numberOfDeceasedLabel;
     private javax.swing.JLabel numberOfInfected;
-    private javax.swing.JLabel numberOfInfectedLabel;
-    private javax.swing.JButton regionSearchBtn;
+    private javax.swing.JComboBox<String> regionSelect;
+    private javax.swing.JSpinner runningAverageDays;
+    private javax.swing.JCheckBox runningAvgCheck;
     private com.toedter.calendar.JDateChooser tillDate;
     // End of variables declaration//GEN-END:variables
 }
