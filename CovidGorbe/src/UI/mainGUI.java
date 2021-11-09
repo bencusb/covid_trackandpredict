@@ -140,9 +140,7 @@ public class mainGUI extends javax.swing.JFrame {
         linearCheck = new javax.swing.JCheckBox();
         runningAvgCheck = new javax.swing.JCheckBox();
         runningAverageDays = new javax.swing.JSpinner();
-        linearCheckDead = new javax.swing.JCheckBox();
-        exponencialCheckDead = new javax.swing.JCheckBox();
-        runningAvgCheckDead = new javax.swing.JCheckBox();
+        grafikonValto = new javax.swing.JToggleButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -264,7 +262,7 @@ public class mainGUI extends javax.swing.JFrame {
 
         tillDate.setDateFormatString("y-MM-d");
 
-        exponencialCheck.setText("Exponenciális(F)");
+        exponencialCheck.setText("Exponenciális");
         exponencialCheck.setContentAreaFilled(false);
         exponencialCheck.setName("exponential"); // NOI18N
         exponencialCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -273,7 +271,7 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
-        linearCheck.setText("Lineáris(F)");
+        linearCheck.setText("Lineáris");
         linearCheck.setContentAreaFilled(false);
         linearCheck.setName("linear"); // NOI18N
         linearCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -282,7 +280,7 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
-        runningAvgCheck.setText("Futó átlag(F)");
+        runningAvgCheck.setText("Futó átlag");
         runningAvgCheck.setContentAreaFilled(false);
         runningAvgCheck.setName("runningavg"); // NOI18N
         runningAvgCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -299,24 +297,10 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
-        linearCheckDead.setText("Lineáris(H)");
-        linearCheckDead.addActionListener(new java.awt.event.ActionListener() {
+        grafikonValto.setText("Fertőzöttek");
+        grafikonValto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                linearCheckDeadActionPerformed(evt);
-            }
-        });
-
-        exponencialCheckDead.setText("Exponenciális(H)");
-        exponencialCheckDead.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exponencialCheckDeadActionPerformed(evt);
-            }
-        });
-
-        runningAvgCheckDead.setText("Futó átlag(H)");
-        runningAvgCheckDead.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runningAvgCheckDeadActionPerformed(evt);
+                grafikonValtoActionPerformed(evt);
             }
         });
 
@@ -358,27 +342,14 @@ public class mainGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(linearCheck)
-                                .addGap(74, 74, 74)
-                                .addComponent(linearCheckDead))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(exponencialCheck)
-                                .addGap(46, 46, 46)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(runningAvgCheckDead)
-                                    .addComponent(exponencialCheckDead))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(runningAvgCheck)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(117, 117, 117))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(runningAvgCheck)
+                    .addComponent(linearCheck)
+                    .addComponent(exponencialCheck))
+                .addGap(13, 13, 13)
+                .addComponent(grafikonValto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,20 +367,17 @@ public class mainGUI extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tillDate, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(linearCheck)
-                    .addComponent(linearCheckDead))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exponencialCheck)
-                    .addComponent(exponencialCheckDead))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(runningAvgCheck)
-                    .addComponent(runningAvgCheckDead))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(linearCheck)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exponencialCheck)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(runningAvgCheck)
+                        .addGap(5, 5, 5)
+                        .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(grafikonValto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberOfInfected)
@@ -558,12 +526,12 @@ public class mainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_runningAvgCheckActionPerformed
 
     private void exponencialCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exponencialCheckActionPerformed
-        createInfectedGraph();
-        config.Save(exponencialCheck.getName(), exponencialCheck.isSelected()+"");
+            createDeceasedGraph();
+            config.Save(exponencialCheck.getName(), exponencialCheck.isSelected()+"");     
     }//GEN-LAST:event_exponencialCheckActionPerformed
 
     private void linearCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linearCheckActionPerformed
-        createInfectedGraph();
+         createInfectedGraph();
         config.Save(linearCheck.getName(), linearCheck.isSelected()+"");
     }//GEN-LAST:event_linearCheckActionPerformed
 
@@ -577,25 +545,17 @@ public class mainGUI extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_jPanel6ComponentResized
 
-    private void runningAvgCheckDeadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runningAvgCheckDeadActionPerformed
+    private void grafikonValtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grafikonValtoActionPerformed
         // TODO add your handling code here:
-        createDeceasedGraph();
-        config.Save(runningAvgCheck.getName(), runningAvgCheckDead.isSelected()+"");
-        if(!runningAvgCheckDead.isSelected()) runningAverageDays.setVisible(false);
-        else runningAverageDays.setVisible(true);
-    }//GEN-LAST:event_runningAvgCheckDeadActionPerformed
-
-    private void linearCheckDeadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linearCheckDeadActionPerformed
-        // TODO add your handling code here:
-        createDeceasedGraph();
-        config.Save(linearCheckDead.getName(), linearCheckDead.isSelected()+"");  
-    }//GEN-LAST:event_linearCheckDeadActionPerformed
-
-    private void exponencialCheckDeadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exponencialCheckDeadActionPerformed
-        // TODO add your handling code here:
-        createDeceasedGraph();
-        config.Save(exponencialCheckDead.getName(), exponencialCheckDead.isSelected()+"");
-    }//GEN-LAST:event_exponencialCheckDeadActionPerformed
+        if(grafikonValto.isSelected()){
+            grafikonValto.setText("Halottak");
+            createDeceasedGraph();
+        }
+        else{
+            grafikonValto.setText("Fertőzöttek");
+            createInfectedGraph();
+        }
+    }//GEN-LAST:event_grafikonValtoActionPerformed
     
     /**
      * Firstly it calls the API with the given parameters, then sums and displays the infected and deceased people
@@ -655,7 +615,7 @@ public class mainGUI extends javax.swing.JFrame {
             graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsDe,
                 graph.leastSquares(dailyStatsDe, noOfDays)[0], graph.leastSquares(dailyStatsDe,
                         noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
-                        linearCheckDead.isSelected(), exponencialCheckDead.isSelected(), runningAvgCheckDead.isSelected(), (int)runningAverageDays.getValue());
+                        linearCheck.isSelected(), exponencialCheck.isSelected(), runningAvgCheck.isSelected(), (int)runningAverageDays.getValue());
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
             jTextArea1.setText("A mai adatokat nem lehet még lekérni. Próbáld újra később!");
@@ -881,8 +841,8 @@ public class mainGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> countrySelector;
     private javax.swing.JCheckBox exponencialCheck;
-    private javax.swing.JCheckBox exponencialCheckDead;
     private com.toedter.calendar.JDateChooser fromDate;
+    private javax.swing.JToggleButton grafikonValto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -899,13 +859,11 @@ public class mainGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JCheckBox linearCheck;
-    private javax.swing.JCheckBox linearCheckDead;
     private javax.swing.JLabel numberOfDeceased;
     private javax.swing.JLabel numberOfInfected;
     private javax.swing.JComboBox<String> regionSelect;
     private javax.swing.JSpinner runningAverageDays;
     private javax.swing.JCheckBox runningAvgCheck;
-    private javax.swing.JCheckBox runningAvgCheckDead;
     private com.toedter.calendar.JDateChooser tillDate;
     // End of variables declaration//GEN-END:variables
 }
