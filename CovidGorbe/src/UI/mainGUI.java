@@ -493,14 +493,20 @@ public class mainGUI extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
-        config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
-        countrySearch();
-        writeOutData();
-        regionSearch();
-        dailyStatsInf=null;
-        createInfectedGraph();
-        //createDeceasedGraph();
-        }catch(Exception e){}
+            config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
+            countrySearch();
+            writeOutData();
+            regionSearch();
+            dailyStatsInf=null;
+            //createDeceasedGraph();
+            if(grafikonValto.isSelected()){
+                createDeceasedGraph();
+            }else{
+                createInfectedGraph();
+            }
+        }catch(Exception e){
+            
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
     * Writes out data 

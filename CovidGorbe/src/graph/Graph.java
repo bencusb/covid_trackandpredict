@@ -354,7 +354,7 @@ public class Graph {
      */
     public void avgDrawing(Graphics2D g2D,int h, int w, int[] values, double Yskalazas, double daysSpace, int futoAtlag,int marg){
         int a = marg;
-        boolean  megakarokhalni=true;
+        boolean  megakarokhalni=true,elso=true;
         for (int i = 0; i < values.length; i++) {
             if(values[i]!=0)megakarokhalni=false;
         }
@@ -373,7 +373,13 @@ public class Graph {
                 }
             }
             double x = avg(tomb, counter);
-            if(megakarokhalni==false)g2D.drawLine((int)(a-daysSpace), h-((int)(atlagelozo*Yskalazas)+marg), (int)(a), h-((int)(x*Yskalazas)+marg));
+            if(megakarokhalni==false&&elso){
+                g2D.drawLine(marg, h-marg, (int)(a), h-((int)(x*Yskalazas)+marg));
+                elso=false;
+            }
+            else if(megakarokhalni==false){
+                g2D.drawLine((int)(a-daysSpace), h-((int)(atlagelozo*Yskalazas)+marg), (int)(a), h-((int)(x*Yskalazas)+marg));
+            }
             atlagelozo=x;
         }
     }
