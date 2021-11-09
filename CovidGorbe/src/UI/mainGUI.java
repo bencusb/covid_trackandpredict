@@ -187,6 +187,7 @@ public class mainGUI extends javax.swing.JFrame {
         numberOfInfected.setText("123123123");
 
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/DarkMode.png"))); // NOI18N
+        jToggleButton1.setFocusPainted(false);
         jToggleButton1.setName("DarkMode"); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,7 +298,12 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
+        grafikonValto.setBackground(new java.awt.Color(51, 51, 51));
+        grafikonValto.setFont(new java.awt.Font("Dialog", 0, 30)); // NOI18N
         grafikonValto.setText("Fertőzöttek");
+        grafikonValto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        grafikonValto.setContentAreaFilled(false);
+        grafikonValto.setFocusPainted(false);
         grafikonValto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 grafikonValtoActionPerformed(evt);
@@ -579,11 +585,21 @@ public class mainGUI extends javax.swing.JFrame {
             dailyStatsInf[i] = dailyStatsInfected.get(i);
         }
         Graph graph = new Graph();
+        Date date;
+        Date startDate = fromDate.getDate();
+        Date endDate= tillDate.getDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (startDate.after(endDate)){
+            date = endDate;
+        } 
+        else{
+            date = startDate;
+        }
         try{
             graph.leastSquares(dailyStatsInf, noOfDays);//4.
             graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsInf,
                 graph.leastSquares(dailyStatsInf, noOfDays)[0], graph.leastSquares(dailyStatsInf,
-                        noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
+                        noOfDays)[1],date, jToggleButton1.isSelected(), nev, 50, 
                         linearCheck.isSelected(), exponencialCheck.isSelected(), runningAvgCheck.isSelected(), (int)runningAverageDays.getValue());
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
@@ -716,11 +732,21 @@ public class mainGUI extends javax.swing.JFrame {
      * @author Patrik
      */
     private void setDark(){
-        Color darkmodeColor = new Color(19, 3, 64);
-
-        jToggleButton1.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LightMode.png")));
-        jLabel2.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LogoW.png")));
-            
+        int r = 19;
+        int g = 3;
+        int b = 64;
+        Color darkmodeColor = new Color(r, g, b);
+     
+        try {
+            jToggleButton1.setIcon(new ImageIcon("\\images\\LightMode.png"));
+            jLabel2.setIcon(new ImageIcon("\\images\\LogoW.png"));
+        } catch (Exception e) {
+            jTextArea1.setText("Bugos a compilerbe a kép de elvileg a distben futtathatóról menni fog.");
+        }
+        
+        
+        grafikonValto.setForeground(Color.WHITE);
+        
         jPanel6.setBackground(Color.black);
         jPanel2.setBackground(darkmodeColor);
         jPanel1.setBackground(darkmodeColor);
@@ -752,9 +778,15 @@ public class mainGUI extends javax.swing.JFrame {
         int g = 226;
         int b = 238;
         Color color = new Color(r,g,b);       
-        jToggleButton1.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\DarkMode.png")));
-        jLabel2.setIcon(new ImageIcon(getClass().getClassLoader().getResource("\\images\\LogoB.png")));
+        try {
+            jToggleButton1.setIcon(new ImageIcon("\\images\\DarkMode.png"));
+            jLabel2.setIcon(new ImageIcon("\\images\\LogoB.png"));
+        } catch (Exception e) {
+            jTextArea1.setText("Bugos a compilerbe a kép de elvileg a distben futtathatóról menni fog.");
+        }
             
+        grafikonValto.setForeground(Color.BLACK);
+        
         jPanel6.setBackground(Color.white);
         jPanel2.setBackground(color);
         jPanel1.setBackground(color);
