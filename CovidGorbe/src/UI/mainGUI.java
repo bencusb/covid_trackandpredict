@@ -15,8 +15,10 @@ import graph.Graph;
 import java.awt.Graphics;
 import API.apiCalling;
 import Config.Config;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -63,6 +66,13 @@ public class mainGUI extends javax.swing.JFrame {
     public mainGUI() {       
         initComponents();
         AutoCompleteDecorator.decorate(countrySelector);    
+        
+        try {
+            jButton1.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/search.png"))));
+            jButton2.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/search.png"))));
+        }catch (Exception e){
+            jTextArea1.setText("Egy vagy több kép betöltése nem sikerült.\nEllenőrizze, hogy van-e internetkapcsolat.");
+        }
         
         Boolean b = false;
         try {
@@ -211,7 +221,6 @@ public class mainGUI extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(102, 102, 102));
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
         jButton1.setToolTipText("");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,7 +237,6 @@ public class mainGUI extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(102, 102, 102));
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
         jButton2.setToolTipText("");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -770,10 +778,10 @@ public class mainGUI extends javax.swing.JFrame {
         Color darkmodeColor = new Color(r, g, b);
      
         try {
-            jToggleButton1.setIcon(new ImageIcon("\\images\\LightMode.png"));
-            jLabel2.setIcon(new ImageIcon("\\images\\LogoW.png"));
+            jToggleButton1.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/LightMode.png"))));
+            jLabel2.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/LogoW.png"))));
         } catch (Exception e) {
-            jTextArea1.setText("Bugos a compilerbe a kép de elvileg a distben futtathatóról menni fog.");
+            jTextArea1.setText("Egy vagy több kép betöltése nem sikerült.\nEllenőrizze, hogy van-e internetkapcsolat.");
         }
         
         
@@ -811,10 +819,10 @@ public class mainGUI extends javax.swing.JFrame {
         int b = 238;
         Color color = new Color(r,g,b);       
         try {
-            jToggleButton1.setIcon(new ImageIcon("\\images\\DarkMode.png"));
-            jLabel2.setIcon(new ImageIcon("\\images\\LogoB.png"));
+            jToggleButton1.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/DarkMode.png"))));
+            jLabel2.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/LogoB.png"))));
         } catch (Exception e) {
-            jTextArea1.setText("Bugos a compilerbe a kép de elvileg a distben futtathatóról menni fog.");
+            jTextArea1.setText("Egy vagy töb bkép betöltése nem sikerült.\nEllenőrizze, hogy van-e internetkapcsolat.");
         }
             
         grafikonValto.setForeground(Color.BLACK);
