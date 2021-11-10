@@ -24,12 +24,13 @@ public class Config {
      *New property
      */
     public static Properties prop = new Properties();
-    String path = "config.alomazelet";
+    String path = null;
 
     /**
      * Creates the config file if it doesnt exist
      */
-    public Config() {
+    public Config(String fileName) {
+        this.path = fileName;
         File configFile = new File(path);
         try { 
             if (!configFile.exists()){

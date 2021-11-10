@@ -48,7 +48,7 @@ public class mainGUI extends javax.swing.JFrame {
      *
      */
     public static apiCalling stats;
-    Config config = new Config();
+    Config config = new Config("config.alomazelet");
     private List<String> countries = new ArrayList<String>();
     private List<Integer> dailyStatsInfected = new ArrayList<>();
     private List<Integer> dailyStatsDeaths = new ArrayList<>();
@@ -98,15 +98,6 @@ public class mainGUI extends javax.swing.JFrame {
         fromDate.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         tillDate.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         //System.out.println(java.sql.Date.valueOf(java.time.LocalDate.now()));
-        
-        
-        
-        try{
-            
-        }catch (Exception e){
-            
-        }
-        
         countrySearch();
     }
     
@@ -472,7 +463,11 @@ public class mainGUI extends javax.swing.JFrame {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         setMode();
         SwingUtilities.invokeLater(() -> {
-            createInfectedGraph();   
+            if(grafikonValto.isSelected()){
+                createDeceasedGraph();
+            }else{
+                createInfectedGraph();
+            }   
         });
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -495,10 +490,10 @@ public class mainGUI extends javax.swing.JFrame {
         try{
             config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
             countrySearch();
+            saveToCache();
             writeOutData();
             regionSearch();
             dailyStatsInf=null;
-            //createDeceasedGraph();
             if(grafikonValto.isSelected()){
                 createDeceasedGraph();
             }else{
@@ -508,6 +503,18 @@ public class mainGUI extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+    /**
+     * Saves the data to a cache file.
+     */
+    void saveToCache(){
+        LocalDate curdate = LocalDate.parse(date1);
+        for (int i = 0; i < dailyStatsInfected.size(); i++){
+            config.Save(selectedCountry + "_" + curdate.toString() + "_", dailyStatsInfected.get(i).toString());
+            config.Save(selectedCountry + "_" + curdate.toString() + "_", dailyStatsDeaths.get(i).toString());
+            curdate = curdate.plusDays(1);
+        }
+    }
+    
     /**
     * Writes out data 
     */
@@ -531,29 +538,49 @@ public class mainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void runningAvgCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runningAvgCheckActionPerformed
-        createInfectedGraph();
+        if(grafikonValto.isSelected()){
+            createDeceasedGraph();
+        }else{
+            createInfectedGraph();
+        } 
         config.Save(runningAvgCheck.getName(), runningAvgCheck.isSelected()+"");
         if(!runningAvgCheck.isSelected()) runningAverageDays.setVisible(false);
         else runningAverageDays.setVisible(true);
     }//GEN-LAST:event_runningAvgCheckActionPerformed
 
     private void exponencialCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exponencialCheckActionPerformed
-            createDeceasedGraph();
+            if(grafikonValto.isSelected()){
+                createDeceasedGraph();
+            }else{
+                createInfectedGraph();
+            }
             config.Save(exponencialCheck.getName(), exponencialCheck.isSelected()+"");     
     }//GEN-LAST:event_exponencialCheckActionPerformed
 
     private void linearCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_linearCheckActionPerformed
-         createInfectedGraph();
+            if(grafikonValto.isSelected()){
+                createDeceasedGraph();
+            }else{
+                createInfectedGraph();
+            }
         config.Save(linearCheck.getName(), linearCheck.isSelected()+"");
     }//GEN-LAST:event_linearCheckActionPerformed
 
     private void valueChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_valueChanged
-        createInfectedGraph();
+        if(grafikonValto.isSelected()){
+            createDeceasedGraph();
+        }else{
+            createInfectedGraph();
+        }
     }//GEN-LAST:event_valueChanged
 
     private void jPanel6ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentResized
         SwingUtilities.invokeLater(() -> {
-            createInfectedGraph();   
+            if(grafikonValto.isSelected()){
+                createDeceasedGraph();
+            }else{
+                createInfectedGraph();
+            }  
         });
     }//GEN-LAST:event_jPanel6ComponentResized
 
@@ -694,7 +721,6 @@ public class mainGUI extends javax.swing.JFrame {
         }catch (IOException | InterruptedException | ParseException | URISyntaxException ex) {
             Logger.getLogger(mainGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //Az olyan országokkal, mint pl. "United Kingdom" amiben space van, az hibát dob, és nem fut le
         int infected = 0;
         int deceased = 0;
         dailyStatsInfected.clear();
@@ -845,11 +871,7 @@ public class mainGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new mainGUI().setVisible(true);
         });
-    }
-    
-    
-    
-    
+    }   
 
     /**
      * Elements of the UI:

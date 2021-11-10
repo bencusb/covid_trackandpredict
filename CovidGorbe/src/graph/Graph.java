@@ -101,6 +101,7 @@ public class Graph {
         //System.out.println(c+" e^"+ slope+"x");
         return back;
     }
+    
     /**
      * DrawsExponential function
      * 
