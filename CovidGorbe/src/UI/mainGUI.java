@@ -509,8 +509,8 @@ public class mainGUI extends javax.swing.JFrame {
     void saveToCache(){
         LocalDate curdate = LocalDate.parse(date1);
         for (int i = 0; i < dailyStatsInfected.size(); i++){
-            config.Save(selectedCountry + "_" + curdate.toString() + "_", dailyStatsInfected.get(i).toString());
-            config.Save(selectedCountry + "_" + curdate.toString() + "_", dailyStatsDeaths.get(i).toString());
+            config.Save(selectedCountry + "_" + curdate.toString() + "_c", dailyStatsInfected.get(i).toString());
+            config.Save(selectedCountry + "_" + curdate.toString() + "_d", dailyStatsDeaths.get(i).toString());
             curdate = curdate.plusDays(1);
         }
     }
