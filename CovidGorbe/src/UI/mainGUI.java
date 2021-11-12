@@ -10,7 +10,7 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-///Ez új!
+///Ez új! -asd
 import graph.Graph;
 import java.awt.Graphics;
 import API.apiCalling;
