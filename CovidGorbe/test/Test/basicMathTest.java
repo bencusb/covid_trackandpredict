@@ -43,7 +43,7 @@ public class basicMathTest {
         basicMath math = new basicMath();
         assertEquals((double)96, math.osszeszoroz(1, 96),0);
         assertEquals((double)11, math.osszeszoroz(2.2,5),0);
-        assertEquals(10.83, math.osszeszoroz(1.6, 1.6),0);
+        assertEquals(2.56, math.osszeszoroz(1.6, 1.6),0.001);
     }
     
     /**
