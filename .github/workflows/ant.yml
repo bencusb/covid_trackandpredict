@@ -5,6 +5,7 @@ name: Java CI
 
 on:
   push:
+    paths-ignore: '/test/**'
     branches: [ main ]
   pull_request:
     branches: [ main ]
