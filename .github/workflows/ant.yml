@@ -5,7 +5,9 @@ name: Java CI
 
 on:
   push:
-    paths-ignore: 'CovidGorbe/test/**'
+    paths: 
+      - 'CovidGorbe/**'
+      - '!CovidGorbe/test/Test/**'
     branches: [ main ]
   pull_request:
     branches: [ main ]
