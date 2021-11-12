@@ -154,12 +154,23 @@ public class mainGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(192, 226, 238));
         jPanel1.setPreferredSize(new java.awt.Dimension(914, 87));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(193, 240, 219));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoB.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2))
+        );
 
         jPanel2.setBackground(new java.awt.Color(192, 226, 238));
 
