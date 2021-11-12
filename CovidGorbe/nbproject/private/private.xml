@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/patri/OneDrive/Documents/!ELTE/3.%20félév/Esemény%20vezérelt%20programozás/Github/covid_trackandpredict/CovidGorbe/src/Config/Config.java</file>
-            <file>file:/C:/Users/patri/OneDrive/Documents/!ELTE/3.%20félév/Esemény%20vezérelt%20programozás/Github/covid_trackandpredict/CovidGorbe/src/UI/mainGUI.java</file>
-            <file>file:/C:/Users/patri/OneDrive/Documents/!ELTE/3.%20félév/Esemény%20vezérelt%20programozás/Github/covid_trackandpredict/CovidGorbe/src/jUnit/basicMath.java</file>
-            <file>file:/C:/Users/patri/OneDrive/Documents/!ELTE/3.%20félév/Esemény%20vezérelt%20programozás/Github/covid_trackandpredict/CovidGorbe/src/graph/Graph.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/src/jUnit/basicMath2.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/test/Test/basicMathTest2.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/src/jUnit/basicMath.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/src/UI/mainGUI.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/src/API/apiCalling.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/src/Config/Config.java</file>
+            <file>file:/C:/Users/Yama/Documents/Git/covid_trackandpredict/CovidGorbe/test/Test/basicMathTest.java</file>
         </group>
     </open-files>
 </project-private>
