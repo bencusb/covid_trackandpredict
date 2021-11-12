@@ -33,11 +33,11 @@ public class GraphTest {
         List<Integer> t = new ArrayList<>();
         t.add(2);
         t.add(6);
-        assertEquals((double)4, g.avg(t, 0));
+        assertEquals((double)4, g.avg(t, 0),0);
         t.add(4);
-        assertEquals((double)4, g.avg(t, 0));
+        assertEquals((double)4, g.avg(t, 0),0);
         t.add(4);
-        assertEquals((double)4, g.avg(t, 0));
+        assertEquals((double)4, g.avg(t, 0),0);
     }
     
     /**
@@ -47,11 +47,11 @@ public class GraphTest {
     public void MeanYCalc(){
         Graph g = new Graph();
         int[] t = {2,6};
-        assertEquals((double)4, g.MeanYCalc(t));
+        assertEquals((double)4, g.MeanYCalc(t),0);
         int[] tt = {1};
-        assertEquals((double)1, g.MeanYCalc(tt));
+        assertEquals((double)1, g.MeanYCalc(tt),0);
         int[] ttt = {1,3,4,4};
-        assertEquals((double)3, g.MeanYCalc(ttt));
+        assertEquals((double)3, g.MeanYCalc(ttt),0);
     }
 
     /**
@@ -60,9 +60,9 @@ public class GraphTest {
     @Test
     public void MeanXCalc(){
         Graph g = new Graph();
-        assertEquals((double)2, g.MeanXCalc(3));
-        assertEquals((double)1, g.MeanXCalc(1));
-        assertEquals((double)3, g.MeanXCalc(5));
+        assertEquals((double)2, g.MeanXCalc(3),0);
+        assertEquals((double)1, g.MeanXCalc(1),0);
+        assertEquals((double)3, g.MeanXCalc(5),0);
     }
     
 }

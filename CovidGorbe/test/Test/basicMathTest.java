@@ -30,9 +30,9 @@ public class basicMathTest {
     @Test
     public void testOsszead() {
         basicMath math = new basicMath();
-        assertEquals((double)2, math.osszead(1, 1));
-        assertEquals((double)3, math.osszead(1.5,1.5));
-        assertEquals(3.2, math.osszead(1.6, 1.6));
+        assertEquals((double)2, math.osszead(1, 1),0);
+        assertEquals((double)3, math.osszead(1.5,1.5),0);
+        assertEquals(3.2, math.osszead(1.6, 1.6),0);
     }
     
     /**
@@ -41,9 +41,9 @@ public class basicMathTest {
     @Test
     public void testOsszeszoroz() {
         basicMath math = new basicMath();
-        assertEquals((double)96, math.osszeszoroz(1, 96));
-        assertEquals((double)11, math.osszeszoroz(2.2,5));
-        assertEquals(10.83, math.osszeszoroz(1.6, 1.6));
+        assertEquals((double)96, math.osszeszoroz(1, 96),0);
+        assertEquals((double)11, math.osszeszoroz(2.2,5),0);
+        assertEquals(10.83, math.osszeszoroz(1.6, 1.6),0);
     }
     
     /**
@@ -52,8 +52,8 @@ public class basicMathTest {
     @Test
     public void testAbs() {
         basicMath math = new basicMath();
-        assertEquals((double)2, math.abszolutertek(2));
-        assertEquals((double)2, math.abszolutertek(-2));
-        assertEquals(5738216.03, math.abszolutertek(-5738216.03));
+        assertEquals((double)2, math.abszolutertek(2),0);
+        assertEquals((double)2, math.abszolutertek(-2),0);
+        assertEquals(5738216.03, math.abszolutertek(-5738216.03),0);
     }
 }

@@ -26,9 +26,9 @@ public class basicMathTest2 {
     @Test
     public void testKivon() {
         basicMath2 math = new basicMath2();
-        assertEquals((double)0, math.kivonas(1, 1));
-        assertEquals((double)0, math.kivonas(1.5,1.5));
-        assertEquals((double)0, math.kivonas(1.6, 1.6));
+        assertEquals((double)0, math.kivonas(1, 1),0);
+        assertEquals((double)0, math.kivonas(1.5,1.5),0);
+        assertEquals((double)0, math.kivonas(1.6, 1.6),0);
     }
     
     /**
@@ -37,9 +37,9 @@ public class basicMathTest2 {
     @Test
     public void testOsztas() {
         basicMath2 math = new basicMath2();
-        assertEquals((double)15, math.osztas(45, 3));
-        assertEquals((double)8, math.osztas(24, 3));
-        assertEquals((double)5, math.osztas(25, 5));
+        assertEquals((double)15, math.osztas(45, 3),0);
+        assertEquals((double)8, math.osztas(24, 3),0);
+        assertEquals((double)5, math.osztas(25, 5),0);
     }
     
     /**
@@ -48,8 +48,8 @@ public class basicMathTest2 {
     @Test
     public void testSquare() {
         basicMath2 math = new basicMath2();
-        assertEquals((double)36, math.square(6));
-        assertEquals((double)25, math.square(5));
-        assertEquals((double)16, math.square(4));
+        assertEquals((double)36, math.square(6),0);
+        assertEquals((double)25, math.square(5),0);
+        assertEquals((double)16, math.square(4),0);
     }
 }
