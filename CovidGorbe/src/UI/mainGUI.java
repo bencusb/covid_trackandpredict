@@ -157,7 +157,6 @@ public class mainGUI extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(193, 240, 219));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoB.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -198,7 +197,6 @@ public class mainGUI extends javax.swing.JFrame {
         numberOfInfected.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         numberOfInfected.setText("123123123");
 
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/DarkMode.png"))); // NOI18N
         jToggleButton1.setFocusPainted(false);
         jToggleButton1.setName("DarkMode"); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -243,7 +241,6 @@ public class mainGUI extends javax.swing.JFrame {
 
         regionSelect.setBackground(new java.awt.Color(51, 51, 51));
         regionSelect.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        regionSelect.setForeground(new java.awt.Color(0, 0, 0));
         regionSelect.setName("regionSelect"); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(102, 102, 102));
