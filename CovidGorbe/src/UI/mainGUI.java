@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import com.toedter.calendar.JDateChooser;
 
 ///Ez új! 
 import graph.Graph;
