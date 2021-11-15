@@ -23,7 +23,3 @@ jobs:
         distribution: 'adopt'
     - name: Build with Ant
       run: ant -noinput -buildfile CovidGorbe/build.xml
-    - uses: actions/upload-artifact@v2
-      with:
-        name: CovidGorbe
-        path: CovidGorbe/dist/**
