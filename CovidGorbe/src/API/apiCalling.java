@@ -30,7 +30,7 @@ import org.json.*;
  *
  * @author bencusb
  */
-public class apiCalling {
+public final class apiCalling {
     
     private static final HttpClient httpClient = HttpClient.newBuilder()
          .version(HttpClient.Version.HTTP_1_1)
@@ -40,8 +40,6 @@ public class apiCalling {
      private JSONObject m_obj;
      private JSONObject m_dates;
      private String m_country;
-     private String m_region;
-     private JSONObject m_countries;
      
     /**
      * Returns the next day
@@ -77,7 +75,7 @@ public class apiCalling {
         m_country = country;
     }
     /**
-     * Calls the api
+     * Calls the API
      * 
      * @param param parameter
      * @throws IOException IOException
@@ -93,8 +91,10 @@ public class apiCalling {
     /**
      * Calls the API
      * 
+     * @param date
      * @param country country
      * @param region region
+     * @param days
      * @throws IOException IOException
      * @throws InterruptedException InterruptedException
      * @throws ParseException ParseException
@@ -154,7 +154,7 @@ public class apiCalling {
                 System.out.println("status: " + response.statusCode());
                 
                 // print response body
-                System.out.println("body: " + outputString);;
+                System.out.println("body: " + outputString);
     }
     /**
      *Fetches country list
@@ -338,7 +338,7 @@ public class apiCalling {
     /**
      * returns values from regions
      * 
-     * @param valName valName
+     * @param valName val Name
      * @return res res
      */
     private TreeMap<String,Integer> getValFromRegion(String valName)
@@ -370,7 +370,7 @@ public class apiCalling {
     {
         JSONArray countries = (JSONArray)(m_obj.get("countries"));
         
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         
         for(int i = 0; i < countries.length(); i++){
             JSONObject id = (JSONObject)(countries.getJSONObject(i));
@@ -384,7 +384,7 @@ public class apiCalling {
      /**
       * returns regions
       * 
-      * @param valName valuename
+      * @param valName value name
       * @return res
       */
     public List<String> getRegions(String valName)
@@ -393,7 +393,7 @@ public class apiCalling {
         JSONObject id = (JSONObject)(countries.getJSONObject(0));
         JSONArray country  = (JSONArray)(id.get(valName));
         
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         
         
         for(int i = 0; i < country.length(); i++){
