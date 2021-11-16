@@ -100,9 +100,9 @@ public class apiCalling {
      * @throws ParseException ParseException
      * @throws URISyntaxException  URISyntaxException 
      */
-    public apiCalling(String country, String region) throws IOException, InterruptedException, ParseException, URISyntaxException
+    public apiCalling(String date, String country, String region, int days) throws IOException, InterruptedException, ParseException, URISyntaxException
     {
-            fetchRegion(country,region);
+            fetchRegion(date,country,region);
     }
     
     /**
