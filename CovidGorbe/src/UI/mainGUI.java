@@ -428,7 +428,6 @@ public class mainGUI extends javax.swing.JFrame {
         jTextArea1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Itt jelennek majd meg adatok");
         jTextArea1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -508,7 +507,6 @@ public class mainGUI extends javax.swing.JFrame {
             config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
             countrySearch();
             saveToCache();
-            writeOutData();
             regionSearch();
             dailyStatsInf=null;
             if(grafikonValto.isSelected()){
@@ -516,6 +514,7 @@ public class mainGUI extends javax.swing.JFrame {
             }else{
                 createInfectedGraph();
             }
+            writeOutData();
         }catch(Exception e){
             
         }
@@ -536,7 +535,7 @@ public class mainGUI extends javax.swing.JFrame {
     * Writes out data 
     */
     private void writeOutData(){
-        jTextArea1.setText("Napi lebontásban:\r\n");             
+        jTextArea1.setText(jTextArea1.getText() + "Napi lebontásban:\r\n");             
         LocalDate curdate = LocalDate.parse(date1);
         for (int i = 0; i < dailyStatsInfected.size(); i++){
             String curday = curdate.toString();
@@ -647,6 +646,7 @@ public class mainGUI extends javax.swing.JFrame {
         }
         try{
             graph.leastSquares(dailyStatsInf, noOfDays);//4.
+            if (graph.leastSquares(dailyStatsInf, noOfDays)[0] < 0) jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
             graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsInf,
                 graph.leastSquares(dailyStatsInf, noOfDays)[0], graph.leastSquares(dailyStatsInf,
                         noOfDays)[1],date, jToggleButton1.isSelected(), nev, 50, 
@@ -678,6 +678,7 @@ public class mainGUI extends javax.swing.JFrame {
         Graph graph = new Graph();
         try{
             graph.leastSquares(dailyStatsDe, noOfDays);//4.
+            if (graph.leastSquares(dailyStatsDe, noOfDays)[0] < 0) jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
             graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsDe,
                 graph.leastSquares(dailyStatsDe, noOfDays)[0], graph.leastSquares(dailyStatsDe,
                         noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
