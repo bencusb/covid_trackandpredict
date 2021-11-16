@@ -4,7 +4,10 @@
  */
 package API;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -19,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.zip.GZIPInputStream;
 import org.json.*;
 
 /** 
@@ -119,15 +123,24 @@ public class apiCalling {
         URI uri = new URI(string.replace(" ", "%20"));
         
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(uri).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(uri).header("Accept-Encoding", "compress, gzip").build();
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(HttpResponse::body)
-            .thenAccept(System.out::println)
+            //.thenAccept(System.out::println)
             .join();
         
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
         
-        m_obj = new JSONObject(response.body());
+        InputStream gzipStream = new GZIPInputStream(response.body());
+               
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(gzipStream, "UTF-8"));
+            String outputString = "";
+            String line;
+            while ((line=bfr.readLine())!=null) {
+              outputString += line;
+            }
+        
+        m_obj = new JSONObject(outputString);
         
         //Uncomment for debuging purposes
                 
@@ -141,7 +154,7 @@ public class apiCalling {
                 System.out.println("status: " + response.statusCode());
                 
                 // print response body
-                System.out.println("body: " + response.body());;
+                System.out.println("body: " + outputString);;
     }
     /**
      *Fetches country list
@@ -192,15 +205,24 @@ public class apiCalling {
         URI uri = new URI(string.replace(" ", "%20"));
         
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(uri).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(uri).header("Accept-Encoding", "compress, gzip").build();
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(HttpResponse::body)
-            .thenAccept(System.out::println)
+            //.thenAccept(System.out::println)
             .join();
         
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
         
-        m_obj = new JSONObject(response.body());
+        InputStream gzipStream = new GZIPInputStream(response.body());
+               
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(gzipStream, "UTF-8"));
+            String outputString = "";
+            String line;
+            while ((line=bfr.readLine())!=null) {
+              outputString += line;
+            }
+        
+        m_obj = new JSONObject(outputString);
         
         //Uncomment for debuging purposes
         
@@ -212,7 +234,7 @@ public class apiCalling {
         System.out.println("status: " + response.statusCode());
 
         // print response body
-        System.out.println("body: " + response.body());
+        System.out.println("body: " + outputString);
     }
     
     /**
@@ -232,15 +254,24 @@ public class apiCalling {
         URI uri = new URI(string.replace(" ", "%20"));
         
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(uri).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(uri).header("Accept-Encoding", "compress, gzip").build();
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .thenApply(HttpResponse::body)
-            .thenAccept(System.out::println)
+            //.thenAccept(System.out::println)
             .join();
         
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
         
-        m_obj = new JSONObject(response.body());
+        InputStream gzipStream = new GZIPInputStream(response.body());
+               
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(gzipStream, "UTF-8"));
+            String outputString = "";
+            String line;
+            while ((line=bfr.readLine())!=null) {
+              outputString += line;
+            }
+        
+        m_obj = new JSONObject(outputString);
         
         //Uncomment for debuging purposes
         
@@ -252,7 +283,7 @@ public class apiCalling {
         System.out.println("status: " + response.statusCode());
 
         // print response body
-        System.out.println("body: " + response.body());
+        System.out.println("body: " + outputString);
     }
     //Uncomment for debuging purposes
     
