@@ -12,6 +12,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import com.toedter.calendar.JDateChooser;
 
 ///Ez új! 
+import java.time.format.DateTimeFormatter;
 import graph.Graph;
 import java.awt.Graphics;
 import API.apiCalling;
@@ -550,7 +551,7 @@ public class mainGUI extends javax.swing.JFrame {
      * @param evt An button click
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+        regionDataSearch();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void runningAvgCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runningAvgCheckActionPerformed
@@ -696,11 +697,11 @@ public class mainGUI extends javax.swing.JFrame {
         regionSelect.removeAllItems();
         try{
             test.fetchRegionList(selectedCountry);
-        }catch(Exception e){
+        }catch(IOException | InterruptedException | URISyntaxException | ParseException e){
             
         }
         //itt elszáll a program az ifnél (ha valaki tudja akkor nyugodtan kijavíthatja)
-        List<String> regions = new ArrayList<String>();
+        List<String> regions = new ArrayList<>();
         try {
             regions = test.getRegions(selectedCountry);
         } catch (Exception e) {
@@ -742,23 +743,59 @@ public class mainGUI extends javax.swing.JFrame {
         int infected = 0;
         int deceased = 0;
         dailyStatsInfected.clear();
-        for(int i: stats.getTodayNewConfirmed().values()){
+        infected = stats.getTodayNewConfirmed().values().stream().map(i -> {
             dailyStatsInfected.add(i);
-            infected += i;
-        };
+            return i;
+        }).map(i -> i).reduce(infected, Integer::sum);
         nev.clear();
         nev=new ArrayList<>(stats.getTodayNewConfirmed().keySet());
         dailyStatsDeaths.clear();
-        for(int i: stats.getTodayNewDeaths().values()){
+        deceased = stats.getTodayNewDeaths().values().stream().map(i -> {
             dailyStatsDeaths.add(i);
-            deceased += i;
-        }
+            return i;
+        }).map(i -> i).reduce(deceased, Integer::sum);
         String infected_string = String.valueOf(infected);
         numberOfInfected.setText(infected_string);
         String deceased_string = String.valueOf(deceased);
         numberOfDeceased.setText(deceased_string);
     }
-    
+    public void regionDataSearch(){
+        String actual_date = "";
+        
+        int infected = 0;
+        int deceased = 0;
+        LocalDate dateBefore = null;
+        LocalDate dateAfter;
+        long noOfDaysBetween = 0;
+        if(fromDate.getDate() != null && tillDate.getDate() != null){
+            dateBefore = LocalDate.parse(date1);
+            dateAfter = LocalDate.parse(date2);
+            noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+            if (dateBefore.isAfter(dateAfter)){
+                dateBefore = dateAfter;
+            }
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for(int i = 0; i <= noOfDaysBetween; i++){
+            actual_date = formatter.format(dateBefore);
+            dateBefore.plusDays(1);
+            System.out.println(dateBefore);
+            System.out.println(selectedCountry);
+            System.out.println(regionSelect.getSelectedItem().toString());
+            try{
+                stats = new apiCalling(actual_date ,selectedCountry, regionSelect.getSelectedItem().toString(), (int)noOfDaysBetween);
+            }catch (IOException | InterruptedException | ParseException | URISyntaxException ex) {
+                Logger.getLogger(mainGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            infected += Integer.parseInt(stats.getRegionNewConfirmed().values().toString());
+            infected += Integer.parseInt(stats.getRegionNewConfirmed().values().toString());
+        }
+        System.out.println(infected);
+        String infected_string = String.valueOf(infected);
+        numberOfInfected.setText(infected_string);
+        String deceased_string = String.valueOf(deceased);
+        numberOfDeceased.setText(deceased_string);
+    }
     /**
      * Decides wether to turn on Night or Light mode
      * 
