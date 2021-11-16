@@ -240,6 +240,7 @@ public class apiCalling {
     /**
      * Fetches Region
      * 
+     * @param date
      * @param country country
      * @param region region
      * @throws IOException IOException
@@ -247,9 +248,9 @@ public class apiCalling {
      * @throws ParseException ParseException
      * @throws URISyntaxException URISyntaxException 
      */
-    public void fetchRegion(String country, String region) throws IOException, InterruptedException, ParseException, URISyntaxException
+    public void fetchRegion(String date, String country, String region) throws IOException, InterruptedException, ParseException, URISyntaxException
     {
-        String string = "https://api.covid19tracking.narrativa.com/api/2021-10-11/country/"+country+"/region/"+region;
+        String string = "https://api.covid19tracking.narrativa.com/api/"+date+"/country/"+country+"/region/"+region;
         
         URI uri = new URI(string.replace(" ", "%20"));
         
