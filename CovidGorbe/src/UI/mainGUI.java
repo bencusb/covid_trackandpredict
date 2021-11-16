@@ -60,6 +60,7 @@ public class mainGUI extends javax.swing.JFrame {
     private String selectedCountry;
     private String date1;
     private String date2;
+    private Boolean didItWriteOutTheDownwardTendency = false;
     private Graph covidGraph;
     Graphics g;
     /**
@@ -506,16 +507,18 @@ public class mainGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
             config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
+            didItWriteOutTheDownwardTendency = false;
             countrySearch();
             saveToCache();
             regionSearch();
             dailyStatsInf=null;
+            jTextArea1.setText("");
+            writeOutData();
             if(grafikonValto.isSelected()){
                 createDeceasedGraph();
-            }else{
+            }else{           
                 createInfectedGraph();
             }
-            writeOutData();
         }catch(Exception e){
             
         }
@@ -603,6 +606,9 @@ public class mainGUI extends javax.swing.JFrame {
 
     private void grafikonValtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grafikonValtoActionPerformed
         // TODO add your handling code here:
+        didItWriteOutTheDownwardTendency = false;
+        jTextArea1.setText("");
+        writeOutData();
         if(grafikonValto.isSelected()){
             grafikonValto.setText("Halottak");
             createDeceasedGraph();
@@ -647,7 +653,10 @@ public class mainGUI extends javax.swing.JFrame {
         }
         try{
             graph.leastSquares(dailyStatsInf, noOfDays);//4.
-            if (graph.leastSquares(dailyStatsInf, noOfDays)[0] < 0) jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
+            if (graph.leastSquares(dailyStatsInf, noOfDays)[0] < 0 && !didItWriteOutTheDownwardTendency){
+                didItWriteOutTheDownwardTendency = true;
+                jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
+            }
             graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsInf,
                 graph.leastSquares(dailyStatsInf, noOfDays)[0], graph.leastSquares(dailyStatsInf,
                         noOfDays)[1],date, jToggleButton1.isSelected(), nev, 50, 
@@ -679,7 +688,10 @@ public class mainGUI extends javax.swing.JFrame {
         Graph graph = new Graph();
         try{
             graph.leastSquares(dailyStatsDe, noOfDays);//4.
-            if (graph.leastSquares(dailyStatsDe, noOfDays)[0] < 0) jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
+            if (graph.leastSquares(dailyStatsDe, noOfDays)[0] < 0 && !didItWriteOutTheDownwardTendency){
+                didItWriteOutTheDownwardTendency = true;
+                jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
+            }
             graph.drawing(jPanel6.getGraphics(), jPanel6.getWidth(), jPanel6.getHeight(), noOfDays, dailyStatsDe,
                 graph.leastSquares(dailyStatsDe, noOfDays)[0], graph.leastSquares(dailyStatsDe,
                         noOfDays)[1],fromDate.getDate(), jToggleButton1.isSelected(), nev, 50, 
