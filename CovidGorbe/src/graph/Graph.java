@@ -129,7 +129,7 @@ public class Graph {
         double ySkala = maxY/(h-100);
             
         int currentX=marg;
-        int curvenumber= 1;
+        int curvenumber= 8;
             
         //System.out.println("X skála: " + xSkala);
         //System.out.println("Y skála: " + ySkala);
