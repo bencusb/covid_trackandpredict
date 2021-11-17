@@ -79,7 +79,12 @@ public class mainGUI extends javax.swing.JFrame {
         
         Boolean b = false;
         try {
-            countrySelector.setSelectedItem(config.GetProp(countrySelector.getName().toString()));
+            if (countries.contains(config.GetProp(countrySelector.getName().toString()))){
+                countrySelector.setSelectedItem(config.GetProp(countrySelector.getName().toString()));
+            }
+            else {
+                countrySelector.setSelectedItem("Hungary");
+            }
             b = Boolean.parseBoolean(config.GetProp(jToggleButton1.getName().toString()));
             runningAvgCheck.setSelected(Boolean.parseBoolean(config.GetProp(runningAvgCheck.getName().toString())));
             linearCheck.setSelected(Boolean.parseBoolean(config.GetProp(linearCheck.getName().toString())));
@@ -108,10 +113,17 @@ public class mainGUI extends javax.swing.JFrame {
         for(int i=0; i < countries.size(); i++){
             countrySelector.addItem(countries.get(i));
         }
+        
+        
         fromDate.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         tillDate.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         //System.out.println(java.sql.Date.valueOf(java.time.LocalDate.now()));
-        countrySearch();
+        try{
+            countrySearch();
+        }
+        catch(NullPointerException e){
+            if (e.getMessage() == "Country not in list") jTextArea1.setText("Nincs ilyen ország.");
+        }
     }
     
     /**
@@ -506,20 +518,27 @@ public class mainGUI extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
-            config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
-            didItWriteOutTheDownwardTendency = false;
-            countrySearch();
-            saveToCache();
-            regionSearch();
-            dailyStatsInf=null;
-            jTextArea1.setText("");
-            writeOutData();
-            if(grafikonValto.isSelected()){
-                createDeceasedGraph();
-            }else{           
-                createInfectedGraph();
+            
+            try{
+                countrySearch();
+                config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
+                didItWriteOutTheDownwardTendency = false;saveToCache();
+                regionSearch();
+                dailyStatsInf=null;
+                jTextArea1.setText("");
+                writeOutData();
+                if(grafikonValto.isSelected()){
+                    createDeceasedGraph();
+                }else{           
+                    createInfectedGraph();
+                }
             }
-        }catch(Exception e){
+            catch(NullPointerException e){
+                if (e.getMessage() == "Country not in list") jTextArea1.setText("Nincs ilyen ország.");
+            }
+            
+        }
+        catch (Exception e){
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -653,6 +672,7 @@ public class mainGUI extends javax.swing.JFrame {
         }
         try{
             graph.leastSquares(dailyStatsInf, noOfDays);//4.
+            System.out.println("legkisebbnégyzetek");
             if (graph.leastSquares(dailyStatsInf, noOfDays)[0] < 0 && !didItWriteOutTheDownwardTendency){
                 didItWriteOutTheDownwardTendency = true;
                 jTextArea1.setText(jTextArea1.getText() + "Mivel csökkenő tendencia van, ezért az exponenciális függvény nem illeszkedik.\r\n");
@@ -661,6 +681,7 @@ public class mainGUI extends javax.swing.JFrame {
                 graph.leastSquares(dailyStatsInf, noOfDays)[0], graph.leastSquares(dailyStatsInf,
                         noOfDays)[1],date, jToggleButton1.isSelected(), nev, 50, 
                         linearCheck.isSelected(), exponencialCheck.isSelected(), runningAvgCheck.isSelected(), (int)runningAverageDays.getValue());
+            System.out.println("kirajzolás");
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
             jTextArea1.setText("A mai adatokat nem lehet még lekérni. Próbáld újra később!");
@@ -747,29 +768,33 @@ public class mainGUI extends javax.swing.JFrame {
         }
         
         selectedCountry = countrySelector.getSelectedItem().toString();
-        try{
+        if (!(countries.contains(selectedCountry))) throw new NullPointerException("Country not in list");
+        else{
+            try{
             stats = new apiCalling(date1, date2, selectedCountry);
-        }catch (IOException | InterruptedException | ParseException | URISyntaxException ex) {
-            Logger.getLogger(mainGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (IOException | InterruptedException | ParseException | URISyntaxException ex) {
+                Logger.getLogger(mainGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int infected = 0;
+            int deceased = 0;
+            dailyStatsInfected.clear();
+            infected = stats.getTodayNewConfirmed().values().stream().map(i -> {
+                dailyStatsInfected.add(i);
+                return i;
+            }).map(i -> i).reduce(infected, Integer::sum);
+            nev.clear();
+            nev=new ArrayList<>(stats.getTodayNewConfirmed().keySet());
+            dailyStatsDeaths.clear();
+            deceased = stats.getTodayNewDeaths().values().stream().map(i -> {
+                dailyStatsDeaths.add(i);
+                return i;
+            }).map(i -> i).reduce(deceased, Integer::sum);
+            String infected_string = String.valueOf(infected);
+            numberOfInfected.setText(infected_string);
+            String deceased_string = String.valueOf(deceased);
+            numberOfDeceased.setText(deceased_string);
         }
-        int infected = 0;
-        int deceased = 0;
-        dailyStatsInfected.clear();
-        infected = stats.getTodayNewConfirmed().values().stream().map(i -> {
-            dailyStatsInfected.add(i);
-            return i;
-        }).map(i -> i).reduce(infected, Integer::sum);
-        nev.clear();
-        nev=new ArrayList<>(stats.getTodayNewConfirmed().keySet());
-        dailyStatsDeaths.clear();
-        deceased = stats.getTodayNewDeaths().values().stream().map(i -> {
-            dailyStatsDeaths.add(i);
-            return i;
-        }).map(i -> i).reduce(deceased, Integer::sum);
-        String infected_string = String.valueOf(infected);
-        numberOfInfected.setText(infected_string);
-        String deceased_string = String.valueOf(deceased);
-        numberOfDeceased.setText(deceased_string);
+        
     }
     public void regionDataSearch(){
         String actual_date = "";
