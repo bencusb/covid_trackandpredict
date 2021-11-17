@@ -60,7 +60,7 @@ public class mainGUI extends javax.swing.JFrame {
     private String selectedCountry;
     private String date1;
     private String date2;
-    private Boolean didItWriteOutTheDownwardTendency = false;
+    protected Boolean didItWriteOutTheDownwardTendency = false;
     private Graph covidGraph;
     Graphics g;
     /**
@@ -70,9 +70,11 @@ public class mainGUI extends javax.swing.JFrame {
         initComponents();
         AutoCompleteDecorator.decorate(countrySelector);    
         
+        jPanel8.setVisible(false);
         try {
             jButton1.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/search.png"))));
-            jButton2.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/search.png"))));
+            jButton2.setIcon(new ImageIcon(ImageIO.read(new URL("http://karakaip.web.elte.hu/EVP%20kepek/search.png"))));       
+            jLabel4.setIcon(new ImageIcon(new URL("https://i.imgur.com/RAhitxq.gif")));
         }catch (Exception e){
             jTextArea1.setText("Egy vagy több kép betöltése nem sikerült.\nEllenőrizze, hogy van-e internetkapcsolat.");
         }
@@ -120,9 +122,13 @@ public class mainGUI extends javax.swing.JFrame {
         //System.out.println(java.sql.Date.valueOf(java.time.LocalDate.now()));
         try{
             countrySearch();
+            
         }
         catch(NullPointerException e){
             if (e.getMessage() == "Country not in list") jTextArea1.setText("Nincs ilyen ország.");
+        }
+        catch (Exception e){
+            
         }
     }
     
@@ -157,6 +163,8 @@ public class mainGUI extends javax.swing.JFrame {
         runningAvgCheck = new javax.swing.JCheckBox();
         runningAverageDays = new javax.swing.JSpinner();
         grafikonValto = new javax.swing.JToggleButton();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -332,6 +340,21 @@ public class mainGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -362,21 +385,24 @@ public class mainGUI extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(41, 41, 41))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(41, 41, 41))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(runningAvgCheck)
-                    .addComponent(linearCheck)
-                    .addComponent(exponencialCheck))
-                .addGap(13, 13, 13)
-                .addComponent(grafikonValto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(runningAverageDays, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(runningAvgCheck)
+                            .addComponent(linearCheck)
+                            .addComponent(exponencialCheck))
+                        .addGap(13, 13, 13)
+                        .addComponent(grafikonValto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -413,7 +439,9 @@ public class mainGUI extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberOfDeceased)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -517,30 +545,12 @@ public class mainGUI extends javax.swing.JFrame {
      * @param evt An button click
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try{
-            
-            try{
-                countrySearch();
-                config.Save(countrySelector.getName(), countrySelector.getSelectedItem().toString());
-                didItWriteOutTheDownwardTendency = false;saveToCache();
-                regionSearch();
-                dailyStatsInf=null;
-                jTextArea1.setText("");
-                writeOutData();
-                if(grafikonValto.isSelected()){
-                    createDeceasedGraph();
-                }else{           
-                    createInfectedGraph();
-                }
-            }
-            catch(NullPointerException e){
-                if (e.getMessage() == "Country not in list") jTextArea1.setText("Nincs ilyen ország.");
-            }
-            
-        }
-        catch (Exception e){
-            
-        }
+        SwingUtilities.invokeLater(() -> {
+            katze madzsga = new katze(this);
+            madzsga.start();
+            doingEverything doingEverything = new doingEverything(this, madzsga);
+            doingEverything.start();
+        });    
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
      * Saves the data to a cache file.
@@ -553,11 +563,11 @@ public class mainGUI extends javax.swing.JFrame {
             curdate = curdate.plusDays(1);
         }
     }
-    
+        
     /**
     * Writes out data 
     */
-    private void writeOutData(){
+    protected void writeOutData(){
         jTextArea1.setText(jTextArea1.getText() + "Napi lebontásban:\r\n");             
         LocalDate curdate = LocalDate.parse(date1);
         for (int i = 0; i < dailyStatsInfected.size(); i++){
@@ -645,7 +655,7 @@ public class mainGUI extends javax.swing.JFrame {
      * @author T. Dani
      */
     public int dailyStatsInf[];
-    private void createInfectedGraph(){
+    protected void createInfectedGraph(){
         
         LocalDate dateBefore = LocalDate.parse(date1);
 	LocalDate dateAfter = LocalDate.parse(date2);
@@ -692,7 +702,7 @@ public class mainGUI extends javax.swing.JFrame {
     }
     
     public int dailyStatsDe[];
-    private void createDeceasedGraph(){
+    protected void createDeceasedGraph(){
         
         LocalDate dateBefore = LocalDate.parse(date1);
 	LocalDate dateAfter = LocalDate.parse(date2);
@@ -725,7 +735,7 @@ public class mainGUI extends javax.swing.JFrame {
             jTextArea1.setText("Hiba történt! Próbáld meg másokkal!");
         } 
     }
-    private void regionSearch(){
+    protected void regionSearch(){
         selectedCountry = countrySelector.getSelectedItem().toString();
         regionSelect.removeAllItems();
         try{
@@ -751,7 +761,7 @@ public class mainGUI extends javax.swing.JFrame {
         }
     }
     List<String> nev=new ArrayList<>();
-    private void countrySearch(){
+    protected void countrySearch(){
         if(fromDate.getDate() != null && tillDate.getDate() != null){
             Date date_date = fromDate.getDate();
             Date date_date2 = tillDate.getDate();
@@ -991,15 +1001,16 @@ public class mainGUI extends javax.swing.JFrame {
     */
     private Boolean layout;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> countrySelector;
+    protected javax.swing.JComboBox<String> countrySelector;
     private javax.swing.JCheckBox exponencialCheck;
     private com.toedter.calendar.JDateChooser fromDate;
-    private javax.swing.JToggleButton grafikonValto;
+    protected javax.swing.JToggleButton grafikonValto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1007,8 +1018,9 @@ public class mainGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    protected javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    protected javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JCheckBox linearCheck;
     private javax.swing.JLabel numberOfDeceased;
