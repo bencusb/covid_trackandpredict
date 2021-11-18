@@ -34,7 +34,7 @@ public final class apiCalling {
     
     private static final HttpClient httpClient = HttpClient.newBuilder()
          .version(HttpClient.Version.HTTP_1_1)
-         .connectTimeout(Duration.ofSeconds(10))
+         .connectTimeout(Duration.ofSeconds(30))
          .build();
     
      private JSONObject m_obj;
