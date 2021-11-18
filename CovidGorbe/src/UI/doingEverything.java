@@ -23,7 +23,7 @@ public class doingEverything implements Runnable {
                 mg.countrySearch();
                 mg.config.Save(mg.countrySelector.getName(), mg.countrySelector.getSelectedItem().toString());
                 mg.didItWriteOutTheDownwardTendency = false;
-                mg.saveToCache();
+                //mg.saveToCache();
                 mg.regionSearch();
                 mg.dailyStatsInf=null;
                 mg.jTextArea1.setText("");
