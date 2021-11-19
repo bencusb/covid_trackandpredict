@@ -406,9 +406,9 @@ public final class apiCalling {
     }
     
     /**
-     * Returns todays new confirmed cases
+     * Returns today's new confirmed cases
      * 
-     * @return todays new confirmed cases
+     * @return today's new confirmed cases
      */
     public TreeMap<String,Integer> getTodayNewConfirmed()
     {
@@ -416,9 +416,9 @@ public final class apiCalling {
     }
     
     /**
-     * Returns todays new death numbers
+     * Returns today's new death numbers
      * 
-     * @return todays new death cases
+     * @return today's new death cases
      */
     public TreeMap<String,Integer> getTodayNewDeaths()
     {
@@ -436,9 +436,9 @@ public final class apiCalling {
     }
     
     /**
-     * Returns todays new death numbers
+     * Returns today's new death numbers
      * 
-     * @return todays new death cases
+     * @return today's new death cases
      */
     public TreeMap<String,Integer> getRegionNewDeaths()
     {
