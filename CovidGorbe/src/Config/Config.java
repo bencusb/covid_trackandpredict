@@ -23,11 +23,16 @@ public class Config {
     /**
      *New property
      */
-    public static Properties prop = new Properties();
+    public static Properties property = new Properties();
+    /**
+     * The name of the file it creates
+     */
     String path = null;
 
     /**
-     * Creates the config file if it doesnt exist
+     * Creates the config file if it doesn't exist
+     * 
+     * @param fileName the name of what the file should be
      */
     public Config(String fileName) {
         this.path = fileName;
@@ -53,12 +58,12 @@ public class Config {
     public void Save(String title, String value){  
         try{
             System.out.println(title + " ---> " + value);
-            prop.setProperty(title, value);
-            FileOutputStream fos = new FileOutputStream(path);
-            prop.store(fos, null);
-            fos.close();
+            property.setProperty(title, value);
+            try (FileOutputStream fos = new FileOutputStream(path)) {
+                property.store(fos, null);
+            }
         }
-        catch (Exception e){
+        catch (IOException e){
             System.out.println(e);
         }
     }
@@ -73,9 +78,9 @@ public class Config {
         String value ="";
         try {
             FileInputStream fis = new FileInputStream(path);
-            prop.load(fis);
-            value = prop.getProperty(title);
-        } catch (Exception e) {
+            property.load(fis);
+            value = property.getProperty(title);
+        } catch (IOException e) {
             System.out.println(e);
         }
         return value;

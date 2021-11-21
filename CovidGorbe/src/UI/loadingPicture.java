@@ -11,9 +11,19 @@ import java.util.logging.Logger;
  *
  * @author Patrik
  */
-public class katze implements Runnable {
-    private Thread t;
-    private mainGUI mg;
+public class loadingPicture implements Runnable {
+    /**
+     * A thread
+     */
+    private Thread thread;
+    /**
+     * Instance of MainGUI
+     */
+    private mainGUI maingui;
+    /**
+     * Boolean
+     * if it's true: the API is fetching data
+     */
     public Boolean running;
     
     /**
@@ -21,32 +31,32 @@ public class katze implements Runnable {
      */
     @Override
     public void run() {
-        mg.jPanel8.setVisible(true);
+        maingui.loadingPicturePanel.setVisible(true);
         while (running){
             try {
-                t.sleep(500);
+                thread.sleep(500);
             } catch (InterruptedException ex) {
                 System.out.println("Error in the thread");
             }
         }
-        mg.jPanel8.setVisible(false);
+        maingui.loadingPicturePanel.setVisible(false);
     }
     /**
      * Starts a new thread
      */
     public void start(){
-        if(t == null){
-            t = new Thread(this, "Query");
-            t.start();
+        if(thread == null){
+            thread = new Thread(this, "Query");
+            thread.start();
         }
     }
     /**
      * Constructor
      * 
-     * @param mg 
+     * @param maingui instance of MainGUI
      */
-    public katze(mainGUI mg){
-        this.mg = mg;
+    public loadingPicture(mainGUI maingui){
+        this.maingui = maingui;
         running = true;
     }
 }

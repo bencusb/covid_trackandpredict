@@ -31,15 +31,25 @@ import org.json.*;
  * @author bencusb
  */
 public final class apiCalling {
-    
+    /**
+     * Opens an HTTP client
+     */
     private static final HttpClient httpClient = HttpClient.newBuilder()
          .version(HttpClient.Version.HTTP_1_1)
          .connectTimeout(Duration.ofSeconds(30))
          .build();
-    
-     private JSONObject m_obj;
-     private JSONObject m_dates;
-     private String m_country;
+    /**
+    * JsonObject m_obj
+    */
+    private JSONObject m_obj;
+    /**
+    * JsonObject m_dates
+    */
+    private JSONObject m_dates;
+    /**
+    * m_country String 
+    */
+    private String m_country;
      
     /**
      * Returns the next day
@@ -91,10 +101,10 @@ public final class apiCalling {
     /**
      * Calls the API
      * 
-     * @param date
+     * @param date date
      * @param country country
      * @param region region
-     * @param days
+     * @param days days
      * @throws IOException IOException
      * @throws InterruptedException InterruptedException
      * @throws ParseException ParseException
@@ -240,7 +250,7 @@ public final class apiCalling {
     /**
      * Fetches Region
      * 
-     * @param date
+     * @param date date
      * @param country country
      * @param region region
      * @throws IOException IOException

@@ -24,12 +24,12 @@ public class Graph {
     * @param measuredValues the measured values
     * @param daysNumber the number of days
     * @return an array with the calculated values needed to draw the graph with
-     * @throws java.lang.Exception java.lang.Exception 
+    * @throws java.lang.Exception java.lang.Exception 
     */
     public double[] leastSquares(int[] measuredValues, int daysNumber) throws Exception{ //Format: "yyyyy-mm-dd"
         double MeanY=MeanYCalc(measuredValues);
         double MeanX=MeanXCalc(daysNumber);
-        System.out.println(MeanY+" Mean x: "+ MeanX);
+        //System.out.println(MeanY+" Mean x: "+ MeanX);
         // M slope C Yintercept
         double numerirator = 0;
         double denomirator = 0;
@@ -45,7 +45,7 @@ public class Graph {
     /**
     * Y's average
     *
-    * @param values ertekek
+    * @param values Values
     * @return mean of Y
     */
     public double MeanYCalc(int[] values){
@@ -59,7 +59,7 @@ public class Graph {
     /**
     * X's average
     *
-    * @param values ertekek
+    * @param values Values
     * @return mean of X
     */
     public double MeanXCalc(int values){
@@ -71,26 +71,25 @@ public class Graph {
         return x;
     }
     /**
-     * Calculates the exponential function of the curve based on data's provided to it
+     * Calculates the exponential function of the curve based on data provided to it
      * 
-     * @param values ertekek
-     * @param days napok száma
+     * @param values Values
+     * @param days Number of days
      * @return an array with the calculated values needed to draw the graph with
      */
     public double[] exponencialisCalc (int[] values,int days){
-        double[] t= new double[days];
+        double[] logOfData= new double[days];
         double xSum=0,x2Sum=0,ySum=0,XYSum=0;
         
-        for (int i = 0; i < t.length; i++) {
-            if (values[i] != 0) t[i]=Math.log(values[i]);
-            else t[i]=Math.log(1);
-            
+        for (int i = 0; i < logOfData.length; i++) {
+            if (values[i] != 0) logOfData[i]=Math.log(values[i]);
+            else logOfData[i]=Math.log(1);            
         }
-        for (int i = 0; i < t.length; i++) {
+        for (int i = 0; i < logOfData.length; i++) {
             xSum+=values[i];
-            ySum+=t[i];
+            ySum+=logOfData[i];
             x2Sum+=Math.pow(values[i], 2);
-            XYSum+=values[i]*t[i];
+            XYSum+=values[i]*logOfData[i];
             //System.out.println(xSum+"\n"+ySum+"\n"+x2Sum+"\n"+XYSum+"\n");
         }
         double slope = (days*XYSum-xSum*ySum)/(days*x2Sum-xSum*xSum);
@@ -105,9 +104,9 @@ public class Graph {
     /**
      * DrawsExponential function
      * 
-     * @param g grafikus interface
-     * @param c c*e^(mx)
-     * @param slope c*e^(mx)
+     * @param g graphics interface
+     * @param c c*e^(m*x)
+     * @param slope c*e^(m*x)
      * @param daysSpace space between days
      * @param h height of canvas
      * @param w width of canvas
@@ -117,15 +116,15 @@ public class Graph {
     public void drawExponential(Graphics g,double c,double slope,int daysSpace, int h, int w, int marg, int max){
         Graphics2D g2D = (Graphics2D) g;
         g2D.setColor(new Color(15, 191, 62));
-        double a = c; //a
-        double b = slope;  //b,     a*e^(bx) pl.: 47.29961595961426 e^8.587609698827512E-4x
+        double yIntercept = c; //a
+        double expSlope = slope;  //b,     a*e^(bx) pl.: 47.29961595961426 e^8.587609698827512E-4x
            
             
-        double maxX= Math.log(max/a)/b;
+        double maxX= Math.log(max/yIntercept)/expSlope;
         double minX = marg;
         double xSkala = (maxX-minX)/(w-100);
             
-        double maxY = a*Math.pow(Math.E, (b*maxX));
+        double maxY = yIntercept*Math.pow(Math.E, (expSlope*maxX));
         double ySkala = maxY/(h-100);
             
         int currentX=marg;
@@ -136,13 +135,14 @@ public class Graph {
         //System.out.println("w: " + w + " h: " + h+"\n daysspace: " + daysSpace);
             
         for (double i = currentX; i < w-marg; i+=(daysSpace/curvenumber)) { //bejárja az x tengelyt 1 nap között curvenumber vonalat rajzol
-            double yvalue = a*Math.pow(Math.E, (b*i*xSkala)); // a*e^(bx)
-            double yvalueNext = a*Math.pow(Math.E, (b*(i+daysSpace/curvenumber)*xSkala)); // a*e^(bx)
+            double yvalue = yIntercept*Math.pow(Math.E, (expSlope*i*xSkala)); // a*e^(bx)
+            double yvalueNext = yIntercept*Math.pow(Math.E, (expSlope*(i+daysSpace/curvenumber)*xSkala)); // a*e^(bx)
             //System.out.println("yvalue= "+ yvalue +"\ni: " + i);             
             if (!((int)(h-marg-(yvalueNext/ySkala))<marg)) g2D.drawLine((int)i, (int)(h-marg-(yvalue/ySkala)), (int)(i+(daysSpace/curvenumber)), (int)(h-marg-(yvalueNext/ySkala)));
             //System.out.println("honnan: (" + i + "," +currentY+") \n hova: (" +(int)(currentX+(i)) + "," + (int)(h-50-(yvalue/ySkala))+")");
         }
-   }
+    }
+    
     /**
     * Returns the next day
     * 
@@ -160,7 +160,7 @@ public class Graph {
         return formatformat.format(calendar.getTime()); 
     }
     /**
-    * Kirajzol mindent is
+    * Draws everything on the graphics panel
     * 
     * @param g graphics interface
     * @param w width of canvas
@@ -173,16 +173,16 @@ public class Graph {
     * @param dark dark mode is enabled or not
     * @param nev daily cases
     * @param margin margin
-     * @param egy Boolean decides if the graph will be drawn or not
-     * @param ketto Boolean decides if the graph will be drawn or not
-     * @param harom Boolean decides if the graph will be drawn or not
-     * @param runningDayCount the number of how many days we are calculating the running average with
+    * @param egy Boolean decides if the graph will be drawn or not
+    * @param ketto Boolean decides if the graph will be drawn or not
+    * @param harom Boolean decides if the graph will be drawn or not
+    * @param runningDayCount the number of how many days we are calculating the running average with
     */                                     
     public void drawing(Graphics g, int w,int h, int days, int[] values,double slope,double Yintercept,Date startDate, Boolean dark, List<String> nev, int margin, boolean egy, boolean ketto, boolean harom, int runningDayCount){
         Graphics2D g2D = (Graphics2D) g;         
         int marg = margin, osztas = 4,x=marg,max=0,vastagsag = 3,gombatmero=8;   
         clearAndFill(g2D, dark, w, h, vastagsag);
-        prepare(g2D, dark, w, h, marg, vastagsag);            
+        prepare(g2D, dark, w, h, marg);            
         double daysSpace = ((w-2*marg)*1.0)/(days+1)*1.0; 
         max = maxkereses(values);            
         double Yskala= ((h-2*marg)*1.0)/max*1.0;
@@ -193,12 +193,13 @@ public class Graph {
         igaziNagyonFincsiMincsiSuperFaszaDate = igazifincsidate.format(startDate);         ///igaziNagyonFincsiMincsiSuperFaszaDate => Ez nélkül nem menne sehova ez !               
         x = sum(days, x, daysSpace);            
         if(egy&&days>1&&slope!=0)linDraw(g2D, marg, h, w, Yintercept, Yskala, x, daysSpace, days, slope, dark, vastagsag);   
-        double[] t = exponencialisCalc(values, days);
-        System.out.println("Slopeee: "+slope);
-        if((ketto && days>1)&&!(0>slope))drawExponential(g, t[0], t[1], days, h, w, marg, max);   
+        double[] exponentialProperties = exponencialisCalc(values, days);
+        //System.out.println("Slopeee: "+slope);
+        if((ketto && days>1)&&!(0>slope))drawExponential(g, exponentialProperties[0], exponentialProperties[1], days, h, w, marg, max);   
         if(harom&&(days>1))avgDrawing(g2D, h, w, values, Yskala, daysSpace, runningDayCount,marg);   
         dayDraw(g2D, dark, marg, h, days, daysSpace, values, osztas, igaziNagyonFincsiMincsiSuperFaszaDate, gombatmero, Yskala, nev);    
     }
+    
     /**
     * Returns the biggest number of an array
     * 
@@ -212,6 +213,7 @@ public class Graph {
         }
         return max;
     }
+    
     /**
     * Returns the sum of daysSpaces
     * 
@@ -226,6 +228,7 @@ public class Graph {
         }
         return x;
     }
+    
     /**
      * Draws the axis of the canvas
      * 
@@ -234,14 +237,14 @@ public class Graph {
      * @param w width
      * @param h height
      * @param marg margin
-     * @param vastagsag thickness
      */
-    private void prepare(Graphics2D g2D, Boolean dark, int w, int h, int marg, int vastagsag){         
+    private void prepare(Graphics2D g2D, Boolean dark, int w, int h, int marg){         
             if (!dark) g2D.setColor(Color.BLACK);
             else g2D.setColor(Color.WHITE);
             g2D.drawLine(marg, marg, marg, h-marg);
             g2D.drawLine(marg, h-marg, w-marg, h-marg);
     }
+    
     /**
      * Clears the g2D component
      * 
@@ -277,6 +280,7 @@ public class Graph {
                 g2D.drawString(numberFormat.format((double)(seged*(osztas-(i-1))))+"", marg/15,((int)y4*i)+marg-(int)y4);
             }
     }
+    
     /**
      * Draws the linear line
      * 
@@ -300,6 +304,7 @@ public class Graph {
         else g2D.setColor(Color.WHITE);
         g2D.fillRect(0, h-(marg-(vastagsag)+1), w, marg);
     }
+    
     /**
      * Draws the days out on the X axis
      * 
@@ -336,11 +341,12 @@ public class Graph {
                 else g2D.setColor(Color.WHITE);
                 try{
                     igaziNagyonFincsiMincsiSuperFaszaDate=getNextDate(nev.get(i));
-                }catch(Exception e){System.out.println("Szia Sanyi!");}
+                }catch(ParseException e){System.out.println("Szia Sanyi!");}
             }
            // System.out.println("Meredekség: "+slope + "Kezdő: " + Yintercept);
            //System.out.println("Y skálázása: "+Yskala);
     }
+    
     /**
      * draws the running average graph
      * 
@@ -350,7 +356,7 @@ public class Graph {
      * @param values measured values
      * @param Yskalazas scale of y axis
      * @param daysSpace space between days
-     * @param futoAtlag rdays the running average is measured
+     * @param futoAtlag days the running average is measured
      * @param marg margin
      */
     public void avgDrawing(Graphics2D g2D,int h, int w, int[] values, double Yskalazas, double daysSpace, int futoAtlag,int marg){
