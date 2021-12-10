@@ -67,6 +67,12 @@ public class Config {
             System.out.println(e);
         }
     }
+    /**
+     * Clears the file
+     */
+    public void Clear(){
+        property.clear();
+    }
     
     /**
      * Returns the value of the corresponding title from the config file

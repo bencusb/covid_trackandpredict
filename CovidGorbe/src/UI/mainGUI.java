@@ -60,6 +60,10 @@ public final class mainGUI extends javax.swing.JFrame {
      */
     List<String> nev=new ArrayList<>();
     /**
+     * File that stores the data of the query
+     */
+    Config datas = new Config("Data.txt");
+    /**
      * A String list containing all the countries
      */
     private List<String> countries = new ArrayList<String>();
@@ -566,9 +570,10 @@ public final class mainGUI extends javax.swing.JFrame {
      */
     void saveToCache(){
         LocalDate curdate = LocalDate.parse(date1);
+        datas.Clear();
         for (int i = 0; i < dailyStatsInfected.size(); i++){
-            config.Save(selectedCountry + "_" + curdate.toString() + "_c", dailyStatsInfected.get(i).toString());
-            config.Save(selectedCountry + "_" + curdate.toString() + "_d", dailyStatsDeaths.get(i).toString());
+            datas.Save(selectedCountry + "_" + curdate.toString() + "_infected", dailyStatsInfected.get(i).toString());
+            datas.Save(selectedCountry + "_" + curdate.toString() + "_death", dailyStatsDeaths.get(i).toString());
             curdate = curdate.plusDays(1);
         }
     }

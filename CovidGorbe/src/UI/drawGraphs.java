@@ -33,7 +33,7 @@ public class drawGraphs implements Runnable {
                 maingui.countrySearch();
                 maingui.config.Save(maingui.countrySelector.getName(), maingui.countrySelector.getSelectedItem().toString());
                 maingui.didItWriteOutTheDownwardTendency = false;
-                //mg.saveToCache();
+                maingui.saveToCache();
                 maingui.regionSearch();
                 maingui.dailyStatsInf=null;
                 maingui.textAreaForWritingOutData.setText("");
