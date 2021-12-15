@@ -23,7 +23,7 @@ public class Config {
     /**
      *New property
      */
-    public static Properties property = new Properties();
+    public Properties property = new Properties();
     /**
      * The name of the file it creates
      */
@@ -71,7 +71,7 @@ public class Config {
      * Clears the file
      */
     public void Clear(){
-        property.clear();
+        this.property.clear();
     }
     
     /**

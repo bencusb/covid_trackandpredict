@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Class that's responsible for showing the loading cat picture
  *
  * @author Patrik
  */
